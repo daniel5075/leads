@@ -13,6 +13,19 @@ export default function ThankYou() {
   
   useEffect(() => {
     setRootElement(document.getElementById('root'));
+    
+    // Load Calendly widget script
+    const script = document.createElement('script');
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    document.body.appendChild(script);
+    
+    return () => {
+      // Clean up script when component unmounts
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
   }, []);
   
   return (
@@ -98,13 +111,11 @@ export default function ThankYou() {
                   </div>
                 </div>
                 
-                {/* Calendly inline widget - full width and height */}
-                <InlineWidget 
-                  url="https://calendly.com/johnparagon/chat" 
-                  styles={{
-                    height: '700px',
-                    width: '100%',
-                  }}
+                {/* Calendly inline widget - full width and height using direct HTML */}
+                <div 
+                  className="calendly-inline-widget" 
+                  data-url="https://calendly.com/johnparagon/chat" 
+                  style={{ minWidth: "320px", height: "1000px" }}
                 />
                 
                 {/* Popup button for mobile */}
