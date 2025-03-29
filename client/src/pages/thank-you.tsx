@@ -90,8 +90,6 @@ export default function ThankYou() {
                 <div className="space-y-6 p-6 bg-gradient-to-r from-card/80 to-primary/5 rounded-xl border border-primary/20">
                 </div>
 
-                <div className="w-20 h-20 mx-auto bg-primary/20 rounded-full flex items-center justify-center mb-4">
-                </div>
                 <h1 className="text-4xl md:text-5xl font-bold mb-3 font-display bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-500">
                   Quest Unlocked!
                 </h1>
