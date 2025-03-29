@@ -14,14 +14,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       // Validate the incoming data
       const validatedData = insertLeadSchema.parse(req.body);
-      
+
       // Store the lead in memory storage
       const createdLead = await storage.createLead(validatedData);
-      
+
       // Return success response
       res.status(201).json({
         success: true,
-        message: "Lead information submitted successfully",
+        message: "Success! Your gift is on the way to your email inbox and should arrive within the next 2-3 minutes.",
         data: createdLead
       });
     } catch (error) {
@@ -35,7 +35,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
         return;
       }
-      
+
       // Handle any other errors
       res.status(500).json({ 
         success: false, 
