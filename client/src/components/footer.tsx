@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { 
   MapPin, Mail, 
-  Twitter, Discord, Linkedin, FileText, 
+  Twitter, MessageCircle, Linkedin, FileText, 
   Github 
 } from "lucide-react";
 
@@ -22,7 +22,7 @@ export default function Footer() {
                 <Twitter size={18} />
               </a>
               <a href="#" className="text-muted-foreground hover:text-foreground transition">
-                <Discord size={18} />
+                <MessageCircle size={18} />
               </a>
               <a href="#" className="text-muted-foreground hover:text-foreground transition">
                 <Github size={18} />

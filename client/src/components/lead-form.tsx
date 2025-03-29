@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "wouter";
+import { useLocation } from "wouter";
 import { z } from "zod";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -32,7 +32,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function LeadForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate();
+  const [_, setLocation] = useLocation();
   const { toast } = useToast();
 
   // Define form
@@ -64,7 +64,7 @@ export default function LeadForm() {
         });
         
         // Redirect to thank you page
-        navigate("/thank-you");
+        setLocation("/thank-you");
       } else {
         // Handle error response
         const errorData = await response.json();

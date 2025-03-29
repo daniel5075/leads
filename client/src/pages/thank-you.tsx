@@ -5,8 +5,16 @@ import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import ProgressBar from "@/components/progress-bar";
 import { ArrowLeft, Calendar, CheckCircle, Download } from "lucide-react";
+import { InlineWidget, PopupButton } from "react-calendly";
+import { useState, useEffect } from "react";
 
 export default function ThankYou() {
+  const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
+  
+  useEffect(() => {
+    setRootElement(document.getElementById('root'));
+  }, []);
+  
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Navbar />
@@ -89,16 +97,34 @@ export default function ThankYou() {
                     
                     {/* Calendly inline widget */}
                     <div className="rounded-md overflow-hidden border border-border/50 h-[400px] bg-card">
-                      <div className="w-full h-full flex items-center justify-center p-6 text-center">
-                        <div>
-                          <h4 className="font-semibold mb-2">Calendly Integration</h4>
-                          <p className="text-muted-foreground mb-4">Schedule your free strategy call</p>
-                          <Button variant="default" className="gap-2">
-                            <Calendar size={16} />
-                            Open Calendar
-                          </Button>
-                        </div>
-                      </div>
+                      <InlineWidget 
+                        url="https://calendly.com/auraforge/strategy-session" 
+                        styles={{
+                          height: '100%',
+                          width: '100%',
+                        }}
+                      />
+                    </div>
+                    
+                    {/* Popup button for mobile */}
+                    <div className="mt-4 md:hidden">
+                      {rootElement && (
+                        <PopupButton 
+                          url="https://calendly.com/auraforge/strategy-session"
+                          rootElement={rootElement}
+                          text="Schedule Call on Mobile"
+                          className="w-full bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-medium py-2 px-4 rounded-md"
+                        />
+                      )}
+                      {!rootElement && (
+                        <Button 
+                          className="w-full bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-medium gap-2"
+                          onClick={() => window.open("https://calendly.com/auraforge/strategy-session", "_blank")}
+                        >
+                          <Calendar size={16} />
+                          Schedule Call on Mobile
+                        </Button>
+                      )}
                     </div>
                     
                     <p className="text-sm text-muted-foreground mt-4 text-center">
