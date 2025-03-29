@@ -4,7 +4,7 @@ import { storage } from "./storage";
 import { insertLeadSchema } from "@shared/schema";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
-import { hubspotService } from "./hubspot";
+import { hubspotService, hubspotClient } from "./hubspot";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // put application routes here
@@ -75,7 +75,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     
     try {
       // Test connection to HubSpot by making a real API call
-      const hubspotClient = require('./hubspot').hubspotClient;
+      // hubspotClient is already imported at the top
+      
+      // Try to get available properties to show what fields are available
+      let availableProperties: string[] = [];
+      try {
+        // Get all properties for contacts
+        const propertiesResponse = await hubspotClient.crm.properties.coreApi.getAll('contacts');
+        availableProperties = propertiesResponse.results.map((p: any) => p.name);
+        
+        console.log('[HubSpot] Available custom properties:', 
+          availableProperties.filter((p: string) => !['email', 'firstname', 'lastname', 'phone'].includes(p)));
+      } catch (propError) {
+        console.error('[HubSpot] Error fetching properties:', propError);
+      }
       
       // Try to get a page of contacts to test the connection
       await hubspotClient.crm.contacts.basicApi.getPage(1);
@@ -84,7 +97,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(200).json({ 
         configured: true, 
         portalId: process.env.HUBSPOT_PORTAL_ID,
-        message: "HubSpot integration is configured and working correctly."
+        message: "HubSpot integration is configured and working correctly.",
+        availableProperties: availableProperties || []
       });
     } catch (error) {
       console.error('[HubSpot] Connection test failed:', error);

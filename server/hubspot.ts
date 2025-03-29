@@ -16,19 +16,23 @@ export const hubspotService = {
     try {
       console.log('[HubSpot] Creating/updating contact:', leadData.email);
       
-      // Format the data for HubSpot's contacts API using standard HubSpot properties
-      // and custom properties (matching exact property names from HubSpot)
-      const properties = {
+      // Map the data to HubSpot properties using confirmed field names
+      // We've confirmed that 'discord_id' exists as a property
+      // For Twitter, we'll try a common pattern for usernames
+      const properties: Record<string, string> = {
         email: leadData.email,
         firstname: leadData.name.split(' ')[0],
         lastname: leadData.name.split(' ').slice(1).join(' ') || '',
         phone: leadData.phone || '',
-        // Use the exact field names as configured in HubSpot
-        // The property names in the screenshot are "TWITTER USERNAME" and "DISCORD ID"
-        // HubSpot often converts these to lowercase with underscores for API usage
-        "twitter username": leadData.twitterUrl || '',
-        "discord id": leadData.discordUsername || ''
       };
+      
+      // Add custom properties if values are provided
+      if (leadData.discordUsername) {
+        properties.discord_id = leadData.discordUsername;
+      }
+      
+      // For Twitter, try without adding it first since we're not sure of the property name
+      // We'll handle this later when we confirm the exact field name
 
       // Search for existing contact by email first
       try {
