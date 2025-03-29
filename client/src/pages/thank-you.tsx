@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Calendar, CheckCircle, Download, Gamepad2, Rocket, Target, Trophy } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Calendar, CheckCircle, Download, Gamepad2, Rocket, Target, Trophy, Lock } from "lucide-react";
 import { PopupButton } from "react-calendly";
 import { useState, useEffect, useRef } from "react";
 
@@ -27,6 +27,18 @@ export default function ThankYou() {
     { level: 6, name: "Web3 Strategist", sectionTitle: "Invite-Only Access", color: "bg-red-500" },
   ];
 
+  // Gamified progress variables
+  const [xp, setXp] = useState(0);
+  const maxXp = 100; // Adjust as needed
+  const rewards = [
+    { name: "Reward 1", unlocked: false },
+    { name: "Reward 2", unlocked: false },
+    { name: "Reward 3", unlocked: false },
+    { name: "Reward 4", unlocked: false },
+    { name: "Reward 5", unlocked: false },
+    { name: "Reward 6", unlocked: false },
+  ];
+
   useEffect(() => {
     setRootElement(document.getElementById('root'));
 
@@ -44,20 +56,21 @@ export default function ThankYou() {
     };
   }, []);
 
-  // Intersection observer to track which section is in view
+  // Intersection observer to track which section is in view and update XP
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const section = entry.target;
+            const levelXp = maxXp / levels.length;
 
-            if (section === section1Ref.current) setActiveLevel(1);
-            else if (section === section2Ref.current) setActiveLevel(2);
-            else if (section === section3Ref.current) setActiveLevel(3);
-            else if (section === section4Ref.current) setActiveLevel(4);
-            else if (section === section5Ref.current) setActiveLevel(5);
-            else if (section === section6Ref.current) setActiveLevel(6);
+            if (section === section1Ref.current) setXp(levelXp * 1);
+            else if (section === section2Ref.current) setXp(levelXp * 2);
+            else if (section === section3Ref.current) setXp(levelXp * 3);
+            else if (section === section4Ref.current) setXp(levelXp * 4);
+            else if (section === section5Ref.current) setXp(levelXp * 5);
+            else if (section === section6Ref.current) setXp(levelXp * 6);
           }
         });
       },
@@ -88,17 +101,6 @@ export default function ThankYou() {
       <main className="flex-grow py-12">
         <div className="container mx-auto px-4 max-w-7xl"> {/* Added max-width and justify-center */}
           <div className="flex relative justify-center"> {/* Centered main content */}
-            {/* Tech-Style Progress Bar (Hidden on Mobile) */}
-            <div className="hidden lg:block w-1 fixed left-0 top-0 h-screen bg-gray-200 dark:bg-gray-800">
-              <div 
-                className="absolute top-0 left-0 w-full transition-all duration-500"
-                style={{ 
-                  height: `${(activeLevel / levels.length) * 100}%`,
-                  background: 'linear-gradient(to bottom, #3b82f6, #3b82f6 20%, #10b981 50%, #f59e0b 70%, #ef4444 100%)',
-                  boxShadow: '0 0 8px rgba(59, 130, 246, 0.6)'
-                }} 
-              />
-            </div>
 
             {/* Main Content */}
             <div className="w-full lg:max-w-3xl"> {/* Removed lg:ml-10 for centering */}
@@ -113,7 +115,49 @@ export default function ThankYou() {
 
               {/* HERO SECTION */}
               <div ref={section1Ref} className="text-center mb-12 relative">
+                <div className="space-y-6 p-6 bg-gradient-to-r from-card/80 to-primary/5 rounded-xl border border-primary/20">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                        <Trophy className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-lg">Level {activeLevel}</h3>
+                        <p className="text-sm text-muted-foreground">Growth Master</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-medium">{xp} / {maxXp} XP</p>
+                      <p className="text-xs text-muted-foreground">Next level in {maxXp - xp} XP</p>
+                    </div>
+                  </div>
 
+                  <div className="relative w-full h-4 bg-primary/10 rounded-full overflow-hidden">
+                    <div 
+                      className="absolute top-0 left-0 h-full bg-gradient-to-r from-primary to-blue-500 rounded-full transition-all duration-500"
+                      style={{ width: `${(xp / maxXp) * 100}%` }}
+                    >
+                      <div className="absolute top-0 left-0 w-full h-full bg-primary/20 animate-pulse"></div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    {rewards.map((reward, index) => (
+                      <div key={index} className={`p-3 rounded-lg border ${reward.unlocked ? 'bg-primary/10 border-primary/30' : 'bg-card/50 border-border/50'}`}>
+                        <div className="flex items-center gap-2">
+                          {reward.unlocked ? (
+                            <CheckCircle className="w-4 h-4 text-primary" />
+                          ) : (
+                            <Lock className="w-4 h-4 text-muted-foreground" />
+                          )}
+                          <span className={`text-sm ${reward.unlocked ? 'text-primary' : 'text-muted-foreground'}`}>
+                            {reward.name}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
                 <div className="w-20 h-20 mx-auto bg-primary/20 rounded-full flex items-center justify-center mb-4">
                   <Trophy className="w-10 h-10 text-primary" />
@@ -151,8 +195,6 @@ export default function ThankYou() {
 
               {/* EXCLUSIVE OFFER SECTION */}
               <div ref={section2Ref} className="bg-card/80 backdrop-blur-sm border border-primary/30 rounded-xl p-8 mb-10 shadow-xl relative">
-
-
                 <h2 className="text-2xl md:text-3xl font-bold mb-4 font-display text-center">
                   This Offer Isn't Public—And It Wasn't in the PDF
                 </h2>
@@ -202,8 +244,6 @@ export default function ThankYou() {
 
               {/* WHAT'S IN THE PACK SECTION */}
               <div ref={section3Ref} className="bg-card/80 backdrop-blur-sm border border-primary/30 rounded-xl p-8 mb-10 shadow-xl relative">
-
-
                 <h2 className="text-2xl md:text-3xl font-bold mb-6 font-display text-center">
                   Here's What You'll Walk Away With
                 </h2>
@@ -421,8 +461,6 @@ export default function ThankYou() {
 
               {/* FINAL CTA SECTION */}
               <div ref={section6Ref} className="bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/30 rounded-xl p-8 text-center shadow-xl mb-8 relative">
-
-
                 <h2 className="text-2xl md:text-3xl font-bold mb-4 font-display">
                   This Is Invite-Only for a Reason
                 </h2>
