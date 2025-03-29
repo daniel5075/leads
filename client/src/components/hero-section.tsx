@@ -75,7 +75,7 @@ export default function HeroSection({ onGetPdfClick }: HeroSectionProps) {
               <div className="bg-card/80 backdrop-blur-md p-4 rounded-lg border border-border/50">
                 <div className="flex items-center mb-2">
                   <img 
-                    src="/attached_assets/481246401_10170896131120094_5831025867835225148_n.jpg" 
+                    src="/attached_assets/image_1743269956284.png" 
                     alt="John Paragon" 
                     className="w-10 h-10 rounded-full object-cover mr-3 border-2 border-primary"
                   />
