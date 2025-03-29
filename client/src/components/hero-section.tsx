@@ -15,15 +15,15 @@ export default function HeroSection({ onGetPdfClick }: HeroSectionProps) {
             <div className="inline-block px-4 py-1 mb-4 rounded-full bg-primary/20 border border-primary/40">
               <span className="text-sm font-semibold tracking-wide text-primary">FREE PDF DOWNLOAD</span>
             </div>
-            
+
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight font-display">
               Unlock <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-500">Explosive Player Retention</span> with Milestone-Based Onboarding
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-xl">
               Learn the exact onboarding framework used by Duolingo, LinkedIn & Canva — now adapted for Web3 games and communities
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <Button 
                 onClick={onGetPdfClick}
@@ -33,7 +33,7 @@ export default function HeroSection({ onGetPdfClick }: HeroSectionProps) {
                 Get the Free PDF
                 <ArrowRight className="w-4 h-4" />
               </Button>
-              
+
               <Button 
                 variant="outline" 
                 size="lg"
@@ -55,7 +55,7 @@ export default function HeroSection({ onGetPdfClick }: HeroSectionProps) {
                 </div>
                 <span className="font-display font-semibold">Your Onboarding Journey</span>
               </div>
-              
+
               <ProgressBar 
                 steps={["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]} 
                 currentStep={3} 
@@ -70,7 +70,7 @@ export default function HeroSection({ onGetPdfClick }: HeroSectionProps) {
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
-            
+
             <div className="absolute bottom-0 left-0 right-0 p-6">
               <div className="bg-card/80 backdrop-blur-md p-4 rounded-lg border border-border/50">
                 <div className="flex items-center mb-2">
