@@ -32,13 +32,10 @@ export const hubspotService = {
         properties.discord_id = leadData.discordUsername;
       }
       
-      // For Twitter, try both common patterns since we're not 100% on the exact API name
+      // Use exact field names from HubSpot (confirmed from screenshots)
       if (leadData.twitterUrl) {
-        // Try all common variations of the field name
-        properties.twitter_username = leadData.twitterUrl;
-        properties.twitter = leadData.twitterUrl;
+        // Using the exact API field name: "twitterhandle"
         properties.twitterhandle = leadData.twitterUrl;
-        properties.twitterusername = leadData.twitterUrl;
       }
 
       // Search for existing contact by email first

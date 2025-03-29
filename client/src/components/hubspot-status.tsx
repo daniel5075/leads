@@ -111,10 +111,10 @@ export default function HubSpotStatus({ className = "" }: HubSpotStatusProps) {
               <div className="font-medium mb-1">Important Custom Properties:</div>
               <ul className="list-disc pl-4 space-y-1">
                 <li className="text-green-600 dark:text-green-400">
-                  <span className="font-mono bg-muted px-1 rounded">discord_id</span> - Available
+                  <span className="font-mono bg-muted px-1 rounded">discord_id</span> - Available & Connected
                 </li>
                 <li className="text-green-600 dark:text-green-400">
-                  <span className="font-mono bg-muted px-1 rounded">twitter_username</span> - Trying multiple variations
+                  <span className="font-mono bg-muted px-1 rounded">twitterhandle</span> - Available & Connected
                 </li>
               </ul>
               
