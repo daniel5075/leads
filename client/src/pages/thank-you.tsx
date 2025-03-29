@@ -88,62 +88,73 @@ export default function ThankYou() {
       <main className="flex-grow py-12">
         <div className="container mx-auto px-4">
           <div className="flex relative">
-            {/* Level Progress Bar (Hidden on Mobile) */}
-            <div className="hidden lg:block w-52 sticky top-0 h-screen overflow-y-auto pr-6">
-              <div className="flex flex-col h-full py-12">
-                <div className="text-sm font-bold mb-4 text-primary">Your Quest Progress</div>
-                
-                {/* Level indicators */}
-                <div className="relative flex-grow flex flex-col justify-between">
-                  {/* Connecting line - full height */}
-                  <div className="absolute top-0 bottom-0 left-4 w-0.5 bg-gradient-to-b from-blue-500 via-primary to-red-500" />
+            {/* Tech-Style Progress Bar (Hidden on Mobile) */}
+            <div className="hidden lg:block w-8 sticky top-0 h-screen overflow-y-auto">
+              <div className="flex flex-col h-full py-12 items-center">
+                {/* Tech-style progress indicator */}
+                <div className="relative h-full w-8 flex flex-col">
+                  {/* Background track */}
+                  <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-gray-200 dark:bg-gray-800 transform -translate-x-1/2" />
                   
-                  {/* Map levels with equal spacing */}
+                  {/* Filled progress line - scales with activeLevel */}
+                  <div 
+                    className="absolute top-0 left-1/2 w-1 transform -translate-x-1/2 transition-all duration-500"
+                    style={{ 
+                      height: `${(activeLevel / levels.length) * 100}%`,
+                      background: 'linear-gradient(to bottom, #3b82f6, #3b82f6 20%, #10b981 50%, #f59e0b 70%, #ef4444 100%)',
+                      boxShadow: '0 0 8px rgba(59, 130, 246, 0.6)'
+                    }} 
+                  />
+                  
+                  {/* Pulsing glow at the active level position */}
+                  <div 
+                    className="absolute left-1/2 w-3 h-3 rounded-full transform -translate-x-1/2 z-20 animate-pulse"
+                    style={{ 
+                      top: `${((activeLevel - 1) / (levels.length - 1)) * 100}%`,
+                      background: 'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(59,130,246,0.6) 50%, rgba(59,130,246,0) 70%)',
+                      boxShadow: '0 0 15px 5px rgba(59, 130, 246, 0.7)'
+                    }} 
+                  />
+                  
+                  {/* Level markers */}
                   {levels.map((level) => (
-                    <div key={level.level} className="relative flex flex-col">
-                      {/* Level bar and circle */}
-                      <div className="flex items-center">
-                        {/* Circle indicator */}
-                        <div className={`z-10 w-8 h-8 rounded-full border-2 flex items-center justify-center
+                    <div 
+                      key={level.level} 
+                      className="absolute left-1/2 transform -translate-x-1/2 w-8 z-10"
+                      style={{ top: `${((level.level - 1) / (levels.length - 1)) * 100}%` }}
+                    >
+                      {/* Circle indicator */}
+                      <div 
+                        className={`h-4 w-4 rounded-full border-2 mx-auto flex items-center justify-center
                           ${level.level <= activeLevel 
-                            ? `${level.color} text-white border-white shadow-lg` 
-                            : 'bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600'}`}
-                        >
-                          {level.level}
-                        </div>
-                        
-                        {/* Level name and title */}
-                        <div className="ml-3">
-                          <div className={`text-sm font-medium ${level.level === activeLevel ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-                            {level.name}
-                          </div>
-                          <div className={`text-xs ${level.level === activeLevel ? 'text-primary/80 font-medium' : 'text-muted-foreground/70'}`}>
-                            {level.sectionTitle}
-                          </div>
-                        </div>
-                        
-                        {/* Show active indicator */}
+                            ? `${level.color} border-white` 
+                            : 'bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600'}`}
+                      >
+                        {/* Dot inside for active level */}
                         {level.level === activeLevel && (
-                          <ArrowRight className="absolute -right-2 text-primary animate-pulse" size={16} />
+                          <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
                         )}
                       </div>
                       
-                      {/* Show "You are here" for active level */}
+                      {/* Simple tech dot indicator */}
+                      <div 
+                        className={`h-1.5 w-1.5 rounded-full mt-2 mx-auto
+                          ${level.level <= activeLevel 
+                            ? `${level.color}` 
+                            : 'bg-gray-300 dark:bg-gray-600'}`}
+                      ></div>
+                      
+                      {/* Light beam for active level */}
                       {level.level === activeLevel && (
-                        <div className="absolute -left-0.5 top-1.5 pl-10 text-[10px] font-semibold text-primary animate-pulse">
-                          ✦ YOU ARE HERE
-                        </div>
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-5 h-6 bg-gradient-to-b from-primary/40 to-transparent rounded-full blur-sm -mt-2 animate-pulse" />
                       )}
                     </div>
                   ))}
                 </div>
                 
-                <div className="mt-6 mb-4 text-xs text-muted-foreground text-center px-2 py-1 bg-muted/50 rounded-md">
-                  <span className="font-bold">Level {activeLevel}:</span> {levels[activeLevel-1].sectionTitle}
-                </div>
-                
-                <div className="text-xs text-center text-muted-foreground italic">
-                  Scroll to level up your knowledge
+                {/* Current level indicator */}
+                <div className="mt-6 text-xs text-primary font-bold text-center">
+                  LVL {activeLevel}
                 </div>
               </div>
             </div>
