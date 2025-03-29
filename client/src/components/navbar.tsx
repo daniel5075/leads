@@ -13,13 +13,7 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md z-50 border-b border-border">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center">
-          <Link href="/">
-            <div className="font-display text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-500 cursor-pointer">
-              AURA FORGE
-            </div>
-          </Link>
-        </div>
+        
         
         <div className="hidden md:flex items-center space-x-6">
           <Link href="/" className="text-muted-foreground hover:text-foreground transition">
