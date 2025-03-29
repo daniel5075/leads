@@ -65,7 +65,7 @@ export default function HeroSection({ onGetPdfClick }: HeroSectionProps) {
 
           <div className="relative rounded-xl overflow-hidden shadow-2xl border border-border/50 h-[480px]">
             <img 
-              src="/attached_assets/image_1743269956284.png"
+              src="/attached_assets/481246401_10170896131120094_5831025867835225148_n.jpg"
               alt="Person in thought" 
               className="w-full h-full object-cover"
             />
