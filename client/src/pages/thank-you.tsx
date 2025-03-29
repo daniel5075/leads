@@ -357,12 +357,6 @@ export default function ThankYou() {
                   </div>
                 </div>
 
-                <div className="mt-6 text-center italic text-muted-foreground">
-                  <p>This is the call we <span className="line-through">used to charge $1,500 for</span><br/>
-                  You're getting it because we believe in building long-term<br/>
-                  Not short-term cash grabs</p>
-                </div>
-
                 {/* CTA Button */}
                 <div className="text-center mt-6">
                   {rootElement && (
