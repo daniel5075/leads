@@ -27,7 +27,7 @@ function CaseStudyCard({ image, title, description, children }: CaseStudyCardPro
       <img 
         src={image}
         alt={title} 
-        className="w-full h-48 object-cover"
+        className="w-full h-64 object-cover"
       />
       <div className="p-6">
         <h3 className="text-xl font-bold mb-2">{title}</h3>
