@@ -19,12 +19,12 @@ export default function ThankYou() {
 
   // Level data
   const levels = [
-    { level: 1, name: "Blueprint Finder", color: "bg-blue-500" },
-    { level: 2, name: "Opportunity Seeker", color: "bg-purple-500" },
-    { level: 3, name: "Strategy Collector", color: "bg-primary" },
-    { level: 4, name: "Funnel Builder", color: "bg-green-500" },
-    { level: 5, name: "Value Maximizer", color: "bg-amber-500" },
-    { level: 6, name: "Web3 Strategist", color: "bg-red-500" },
+    { level: 1, name: "Blueprint Finder", sectionTitle: "Quest Unlocked", color: "bg-blue-500" },
+    { level: 2, name: "Opportunity Seeker", sectionTitle: "Exclusive Offer", color: "bg-purple-500" },
+    { level: 3, name: "Strategy Collector", sectionTitle: "The Strategic Mini-Stack", color: "bg-primary" },
+    { level: 4, name: "Funnel Builder", sectionTitle: "System That Pays For Itself", color: "bg-green-500" },
+    { level: 5, name: "Value Maximizer", sectionTitle: "What You Will Get", color: "bg-amber-500" },
+    { level: 6, name: "Web3 Strategist", sectionTitle: "Invite-Only Access", color: "bg-red-500" },
   ];
   
   useEffect(() => {
@@ -89,40 +89,60 @@ export default function ThankYou() {
         <div className="container mx-auto px-4">
           <div className="flex relative">
             {/* Level Progress Bar (Hidden on Mobile) */}
-            <div className="hidden lg:block w-36 sticky top-8 h-[calc(100vh-4rem)] overflow-y-auto pr-6">
-              <div className="flex flex-col h-full">
-                <div className="text-sm font-bold mb-2 text-primary">Your Quest Level</div>
+            <div className="hidden lg:block w-52 sticky top-0 h-screen overflow-y-auto pr-6">
+              <div className="flex flex-col h-full py-12">
+                <div className="text-sm font-bold mb-4 text-primary">Your Quest Progress</div>
                 
                 {/* Level indicators */}
-                <div className="relative space-y-12 py-4">
-                  {/* Connecting line */}
-                  <div className="absolute top-0 bottom-0 left-4 w-0.5 bg-gray-200 dark:bg-gray-700" />
+                <div className="relative flex-grow flex flex-col justify-between">
+                  {/* Connecting line - full height */}
+                  <div className="absolute top-0 bottom-0 left-4 w-0.5 bg-gradient-to-b from-blue-500 via-primary to-red-500" />
                   
+                  {/* Map levels with equal spacing */}
                   {levels.map((level) => (
-                    <div key={level.level} className="relative flex items-center">
-                      {/* Circle indicator */}
-                      <div className={`z-10 w-8 h-8 rounded-full border-2 flex items-center justify-center
-                        ${level.level <= activeLevel 
-                          ? `${level.color} text-white border-white` 
-                          : 'bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600'}`}
-                      >
-                        {level.level}
+                    <div key={level.level} className="relative flex flex-col">
+                      {/* Level bar and circle */}
+                      <div className="flex items-center">
+                        {/* Circle indicator */}
+                        <div className={`z-10 w-8 h-8 rounded-full border-2 flex items-center justify-center
+                          ${level.level <= activeLevel 
+                            ? `${level.color} text-white border-white shadow-lg` 
+                            : 'bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600'}`}
+                        >
+                          {level.level}
+                        </div>
+                        
+                        {/* Level name and title */}
+                        <div className="ml-3">
+                          <div className={`text-sm font-medium ${level.level === activeLevel ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+                            {level.name}
+                          </div>
+                          <div className={`text-xs ${level.level === activeLevel ? 'text-primary/80 font-medium' : 'text-muted-foreground/70'}`}>
+                            {level.sectionTitle}
+                          </div>
+                        </div>
+                        
+                        {/* Show active indicator */}
+                        {level.level === activeLevel && (
+                          <ArrowRight className="absolute -right-2 text-primary animate-pulse" size={16} />
+                        )}
                       </div>
                       
-                      {/* Level name */}
-                      <div className={`ml-3 text-sm font-medium ${level.level === activeLevel ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-                        {level.name}
-                      </div>
-                      
-                      {/* Show active indicator */}
+                      {/* Show "You are here" for active level */}
                       {level.level === activeLevel && (
-                        <ArrowRight className="absolute -right-2 text-primary animate-pulse" size={16} />
+                        <div className="absolute -left-0.5 top-1.5 pl-10 text-[10px] font-semibold text-primary animate-pulse">
+                          ✦ YOU ARE HERE
+                        </div>
                       )}
                     </div>
                   ))}
                 </div>
                 
-                <div className="mt-auto text-xs text-muted-foreground italic">
+                <div className="mt-6 mb-4 text-xs text-muted-foreground text-center px-2 py-1 bg-muted/50 rounded-md">
+                  <span className="font-bold">Level {activeLevel}:</span> {levels[activeLevel-1].sectionTitle}
+                </div>
+                
+                <div className="text-xs text-center text-muted-foreground italic">
                   Scroll to level up your knowledge
                 </div>
               </div>
