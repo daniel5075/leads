@@ -17,27 +17,7 @@ export default function ThankYou() {
   const section5Ref = useRef<HTMLDivElement>(null);
   const section6Ref = useRef<HTMLDivElement>(null);
 
-  // Level data
-  const levels = [
-    { level: 1, name: "Blueprint Finder", sectionTitle: "Quest Unlocked", color: "bg-blue-500" },
-    { level: 2, name: "Opportunity Seeker", sectionTitle: "Exclusive Offer", color: "bg-purple-500" },
-    { level: 3, name: "Strategy Collector", sectionTitle: "The Strategic Mini-Stack", color: "bg-primary" },
-    { level: 4, name: "Funnel Builder", sectionTitle: "System That Pays For Itself", color: "bg-green-500" },
-    { level: 5, name: "Value Maximizer", sectionTitle: "What You Will Get", color: "bg-amber-500" },
-    { level: 6, name: "Web3 Strategist", sectionTitle: "Invite-Only Access", color: "bg-red-500" },
-  ];
-
-  // Gamified progress variables
-  const [xp, setXp] = useState(0);
-  const maxXp = 100; // Adjust as needed
-  const rewards = [
-    { name: "Reward 1", unlocked: false },
-    { name: "Reward 2", unlocked: false },
-    { name: "Reward 3", unlocked: false },
-    { name: "Reward 4", unlocked: false },
-    { name: "Reward 5", unlocked: false },
-    { name: "Reward 6", unlocked: false },
-  ];
+  
 
   useEffect(() => {
     setRootElement(document.getElementById('root'));
@@ -132,31 +112,7 @@ export default function ThankYou() {
                     </div>
                   </div>
 
-                  <div className="relative w-full h-4 bg-primary/10 rounded-full overflow-hidden">
-                    <div 
-                      className="absolute top-0 left-0 h-full bg-gradient-to-r from-primary to-blue-500 rounded-full transition-all duration-500"
-                      style={{ width: `${(xp / maxXp) * 100}%` }}
-                    >
-                      <div className="absolute top-0 left-0 w-full h-full bg-primary/20 animate-pulse"></div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4 mt-4">
-                    {rewards.map((reward, index) => (
-                      <div key={index} className={`p-3 rounded-lg border ${reward.unlocked ? 'bg-primary/10 border-primary/30' : 'bg-card/50 border-border/50'}`}>
-                        <div className="flex items-center gap-2">
-                          {reward.unlocked ? (
-                            <CheckCircle className="w-4 h-4 text-primary" />
-                          ) : (
-                            <Lock className="w-4 h-4 text-muted-foreground" />
-                          )}
-                          <span className={`text-sm ${reward.unlocked ? 'text-primary' : 'text-muted-foreground'}`}>
-                            {reward.name}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  
                 </div>
 
                 <div className="w-20 h-20 mx-auto bg-primary/20 rounded-full flex items-center justify-center mb-4">
