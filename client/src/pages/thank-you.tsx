@@ -17,7 +17,7 @@ export default function ThankYou() {
   const section5Ref = useRef<HTMLDivElement>(null);
   const section6Ref = useRef<HTMLDivElement>(null);
 
-  
+
 
   useEffect(() => {
     setRootElement(document.getElementById('root'));
@@ -107,12 +107,10 @@ export default function ThankYou() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-medium">{xp} / {maxXp} XP</p>
-                      <p className="text-xs text-muted-foreground">Next level in {maxXp - xp} XP</p>
-                    </div>
+                  </div>
                   </div>
 
-                  
+
                 </div>
 
                 <div className="w-20 h-20 mx-auto bg-primary/20 rounded-full flex items-center justify-center mb-4">
