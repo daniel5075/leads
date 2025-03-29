@@ -115,7 +115,7 @@ export default function ThankYou() {
                 <div 
                   className="calendly-inline-widget" 
                   data-url="https://calendly.com/johnparagon/chat" 
-                  style={{ minWidth: "320px", height: "1000px" }}
+                  style={{ minWidth: "320px", height: "1300px" }}
                 />
                 
                 {/* Popup button for mobile */}
