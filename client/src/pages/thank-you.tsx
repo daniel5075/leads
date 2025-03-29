@@ -9,7 +9,6 @@ import { useState, useEffect, useRef } from "react";
 
 export default function ThankYou() {
   const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
-  const [activeLevel, setActiveLevel] = useState(1);
   const section1Ref = useRef<HTMLDivElement>(null);
   const section2Ref = useRef<HTMLDivElement>(null);
   const section3Ref = useRef<HTMLDivElement>(null);
@@ -40,17 +39,10 @@ export default function ThankYou() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        // Intersection observer now only tracks visibility
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const section = entry.target;
-            //Removed maxXp and levels references
-
-            if (section === section1Ref.current) setActiveLevel(1); // Placeholder -  No XP system, updating level for demonstration.
-            else if (section === section2Ref.current) setActiveLevel(2);
-            else if (section === section3Ref.current) setActiveLevel(3);
-            else if (section === section4Ref.current) setActiveLevel(4);
-            else if (section === section5Ref.current) setActiveLevel(5);
-            else if (section === section6Ref.current) setActiveLevel(6);
+            // Section is visible
           }
         });
       },
@@ -96,19 +88,11 @@ export default function ThankYou() {
               {/* HERO SECTION */}
               <div ref={section1Ref} className="text-center mb-12 relative">
                 <div className="space-y-6 p-6 bg-gradient-to-r from-card/80 to-primary/5 rounded-xl border border-primary/20">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                        <Trophy className="w-6 h-6 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-lg">Level {activeLevel}</h3>
-                        <p className="text-sm text-muted-foreground">Growth Master</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
+                  <div className="flex items-center justify-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Trophy className="w-6 h-6 text-primary" />
                   </div>
-                  </div>
+                </div>
 
 
                 </div>
