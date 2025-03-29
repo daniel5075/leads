@@ -95,7 +95,7 @@ export default function ProofSection() {
           </CaseStudyCard>
 
           <CaseStudyCard 
-            image="/images/forge-path.jpg"
+            image="/images/Quest-Structure.png"
             title="Web3 Application: The Forge Path"
             description="Break the first 24–72 hours of gameplay into mini quests with tiny rewards (XP, lore, items) and visual progress tracking."
           >
