@@ -1,0 +1,153 @@
+Got it. Here's the **revised funnel page wireframe** based on that direction—**no mention of the $2k price**, but with *strategic seeding* of the $10k–$100k deal range and the value of what's being offered. This keeps the mystery, builds intrigue, and makes the CTA feel low-risk but high-reward.
+
+---
+
+## 🔥 FUNNEL PAGE WIREFRAME: "The Thank You Quest"
+
+### SECTION 1 – HERO: “You’ve Unlocked the Strategist’s Map”
+
+**Headline (Big + Bold):**  
+**🎯 Quest Unlocked: You’ve Got the Blueprint—Now Let’s Build the Empire**
+
+**Subheadline:**  
+Your free PDF is on its way  
+But the real magic happens when the system goes from idea → execution
+
+**Visuals:**  
+Map scroll, leveling up animation, "achievement unlocked" sound FX  
+(We gamify EVERYTHING)
+
+**CTA Button (Above the Fold):**  
+🕹️ Begin the Strategy Call Quest
+
+---
+
+### SECTION 2 – THE UPGRADE: “You’ve Just Unlocked an Exclusive Offer”
+
+**Section Title:**  
+**This Offer Isn’t Public—And It Wasn’t in the PDF**
+
+**Copy Block:**  
+The strategies you just downloaded?  
+They’re pulled from high-performance acquisition systems responsible for **billions in game revenue, service sales, and microtransactions** in Web2
+
+When our team installs the full stack for Web3 games, we typically work on **$10k–$100k deals** (plus revenue share)  
+That’s the standard for this kind of firepower
+
+But this isn’t that
+
+This is an **entry point**  
+A shortcut into the collaboration  
+An invitation to earn your spot in our network  
+A chance to implement a *lightweight version* of the full system—and start seeing momentum before investing heavy resources
+
+**We don’t sell this publicly**  
+We offer it to founders who we believe have serious potential  
+Which is why you’re seeing this
+
+**CTA Button:**  
+🎯 Book Your Free Strategy Session
+
+---
+
+### SECTION 3 – WHAT’S IN THE PACK: “The Strategic Mini-Stack”
+
+**Section Title:**  
+**Here’s What You’ll Walk Away With**
+
+**Copy Block:**
+
+✅ **Audience Share Campaign**  
+We introduce your world to ours. A zero-risk collaboration that starts building cross-community trust—instantly
+
+✅ **Gleam Collab (7-Day Campaign)**  
+Fully built by us. Gamified, community-driven, and built to increase player retention from Day 1
+
+✅ **Private Community Giveaway (30 Days)**  
+You get a done-with-you event system you can repeat endlessly to boost retention, referrals, and community energy
+
+✅ **KOL Exposure Campaign**  
+Our private network of KOLs drives real traffic to your game or event. We don’t profit from this—we fund the promo for you
+
+✅ **Break-Even Funnel Strategy Session (30 min)**  
+Jump on a call with John and co-design your *entry-point offer*  
+This is how you get your paid marketing to self-fund—before you even scale
+
+✅ **Value Ascension Ladder Design**  
+Get a plug-and-play version of the *same structure used to scale Web2 services to 7–8 figures*—adapted for your Web3 ecosystem
+
+**CTA Button:**  
+🧠 Book My Strategy Call Now
+
+---
+
+### SECTION 4 – “WHY NOW?” + FUTURE VISION
+
+**Section Title:**  
+**This Is the First Web3 Game Funnel Engineered to Pay For Itself**
+
+**Mini Headline:**  
+Here’s the real win:  
+You stop burning capital on short-term hype  
+You start acquiring real players  
+You install a system that scales—without the risk
+
+**Copy Block:**
+
+- You get a working player acquisition funnel—while others keep guessing  
+- You get our frameworks, adapted to your game, for free on the call  
+- You take the first step in a relationship that could be worth 6 or 7 figures over time (for both of us)
+
+> This is how partnerships should start  
+> Not with hype  
+> With value
+
+**CTA Button:**  
+🎮 Yes, Let’s Build My Funnel
+
+---
+
+### SECTION 5 – OBJECTION BLOCK: “Is This One of Those Sales Calls?”
+
+**Section Title:**  
+**Let’s Be Clear About What This Is… And What It’s Not**
+
+**You Will NOT Get:**
+
+🚫 A bait-and-switch  
+🚫 A pushy pitch  
+🚫 A vague sales script
+
+**You WILL Get:**
+
+✅ A real strategy call with someone who’s built and scaled marketing systems that do 8 figures outside Web3  
+✅ A custom entry-point offer design you can implement whether we work together or not  
+✅ Access to a private system that *no other Web3 game is using yet*
+
+**Optional Sub-Headline:**  
+This is the call we *used to charge $1,500 for*  
+You’re getting it because we believe in building long-term  
+Not short-term cash grabs
+
+**CTA Button:**  
+📅 Book My Free Strategy Session
+
+---
+
+### SECTION 6 – FINAL CTA + Scarcity
+
+**Section Title:**  
+**This Is Invite-Only for a Reason**
+
+We can only support a handful of these partnerships each month  
+Once your PDF is delivered, this offer won’t be shown again
+
+**You’ve seen the blueprint**  
+Now let’s turn it into a weapon
+
+**CTA Button (Big + Final):**  
+🕹️ Begin My Strategy Quest Now
+
+---
+
+Want me to build this out in Tailwind/React for a visual mockup? Or turn it into a script for a VSL-style landing page?
