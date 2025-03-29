@@ -207,7 +207,7 @@ export default function LeadForm() {
                 <span>Get Instant Access</span>
               )}
             </div>
-          </Button>n>
+          </Button>
 
           <p className="text-xs text-muted-foreground text-center mt-4">
             By submitting this form, you agree to receive communications from AURA FORGE. 
