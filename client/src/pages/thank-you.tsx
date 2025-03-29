@@ -172,13 +172,7 @@ export default function ThankYou() {
             
               {/* HERO SECTION */}
               <div ref={section1Ref} className="text-center mb-12 relative">
-                {/* Green Arrow pointing to CTA */}
-                <div className="hidden md:block absolute right-4 bottom-12 text-green-500 animate-bounce">
-                  <div className="flex flex-col items-center">
-                    <ArrowUpRight size={40} strokeWidth={3} />
-                    <p className="text-sm font-bold mt-1">Click to Book!</p>
-                  </div>
-                </div>
+                
                 
                 <div className="w-20 h-20 mx-auto bg-primary/20 rounded-full flex items-center justify-center mb-4">
                   <Trophy className="w-10 h-10 text-primary" />
@@ -216,13 +210,7 @@ export default function ThankYou() {
               
               {/* EXCLUSIVE OFFER SECTION */}
               <div ref={section2Ref} className="bg-card/80 backdrop-blur-sm border border-primary/30 rounded-xl p-8 mb-10 shadow-xl relative">
-                {/* Green Arrow pointing to CTA */}
-                <div className="hidden md:block absolute right-4 bottom-12 text-green-500 animate-pulse">
-                  <div className="flex flex-col items-center">
-                    <ArrowUpRight size={40} strokeWidth={3} />
-                    <p className="text-sm font-bold mt-1">Book Here!</p>
-                  </div>
-                </div>
+                
                 
                 <h2 className="text-2xl md:text-3xl font-bold mb-4 font-display text-center">
                   This Offer Isn't Public—And It Wasn't in the PDF
@@ -273,13 +261,7 @@ export default function ThankYou() {
               
               {/* WHAT'S IN THE PACK SECTION */}
               <div ref={section3Ref} className="bg-card/80 backdrop-blur-sm border border-primary/30 rounded-xl p-8 mb-10 shadow-xl relative">
-                {/* Green Arrow pointing to CTA */}
-                <div className="hidden md:block absolute right-4 bottom-12 text-green-500 animate-pulse">
-                  <div className="flex flex-col items-center">
-                    <ArrowUpRight size={40} strokeWidth={3} />
-                    <p className="text-sm font-bold mt-1">Book Now!</p>
-                  </div>
-                </div>
+                
                 
                 <h2 className="text-2xl md:text-3xl font-bold mb-6 font-display text-center">
                   Here's What You'll Walk Away With
@@ -498,13 +480,7 @@ export default function ThankYou() {
               
               {/* FINAL CTA SECTION */}
               <div ref={section6Ref} className="bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/30 rounded-xl p-8 text-center shadow-xl mb-8 relative">
-                {/* Green Arrow pointing to CTA - Larger for final CTA */}
-                <div className="hidden md:block absolute right-10 bottom-16 text-green-500 animate-bounce">
-                  <div className="flex flex-col items-center">
-                    <ArrowUpRight size={50} strokeWidth={3} />
-                    <p className="text-base font-bold mt-1">Click Here Now!</p>
-                  </div>
-                </div>
+                
                 
                 <h2 className="text-2xl md:text-3xl font-bold mb-4 font-display">
                   This Is Invite-Only for a Reason
