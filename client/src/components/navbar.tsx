@@ -26,31 +26,7 @@ export default function Navbar() {
         </button>
       </div>
       
-      {/* Mobile menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-background border-b border-border">
-          <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-            <Link href="/" className="text-foreground hover:text-primary transition py-2">
-              Home
-            </Link>
-            <a href="#" className="text-foreground hover:text-primary transition py-2">
-              The Game
-            </a>
-            <a href="#" className="text-foreground hover:text-primary transition py-2">
-              Partnerships
-            </a>
-            <a href="#" className="text-foreground hover:text-primary transition py-2">
-              Events & Rewards
-            </a>
-            <a href="#" className="text-foreground hover:text-primary transition py-2">
-              Roadmap & Development
-            </a>
-            <Button className="bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-medium w-full">
-              Connect
-            </Button>
-          </div>
-        </div>
-      )}
+      
     </nav>
   );
 }
