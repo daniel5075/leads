@@ -98,7 +98,7 @@ export default function ThankYou() {
                     {/* Calendly inline widget */}
                     <div className="rounded-md overflow-hidden border border-border/50 h-[400px] bg-card">
                       <InlineWidget 
-                        url="https://calendly.com/auraforge/strategy-session" 
+                        url="https://calendly.com/johnparagon/chat" 
                         styles={{
                           height: '100%',
                           width: '100%',
@@ -110,7 +110,7 @@ export default function ThankYou() {
                     <div className="mt-4 md:hidden">
                       {rootElement && (
                         <PopupButton 
-                          url="https://calendly.com/auraforge/strategy-session"
+                          url="https://calendly.com/johnparagon/chat"
                           rootElement={rootElement}
                           text="Schedule Call on Mobile"
                           className="w-full bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-medium py-2 px-4 rounded-md"
@@ -119,7 +119,7 @@ export default function ThankYou() {
                       {!rootElement && (
                         <Button 
                           className="w-full bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-medium gap-2"
-                          onClick={() => window.open("https://calendly.com/auraforge/strategy-session", "_blank")}
+                          onClick={() => window.open("https://calendly.com/johnparagon/chat", "_blank")}
                         >
                           <Calendar size={16} />
                           Schedule Call on Mobile
