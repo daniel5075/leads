@@ -419,24 +419,7 @@ export default function ThankYou() {
                 </div>
               </div>
 
-              {/* PDF DOWNLOAD REMINDER */}
-              <div className="bg-card border border-border/50 rounded-lg p-6 mb-6">
-                <div className="flex gap-4 items-center">
-                  <div className="bg-primary/10 p-3 rounded-full">
-                    <Download className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold">Your PDF Is On Its Way</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Check your email for your Milestone-Based Onboarding Guide. Can't find it? Download it directly.
-                    </p>
-                  </div>
-                  <Button size="sm" variant="outline" className="ml-auto shrink-0">
-                    <Download size={14} className="mr-2" />
-                    Download PDF
-                  </Button>
-                </div>
-              </div>
+              
             </div>
           </div>
         </div>
