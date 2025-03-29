@@ -197,17 +197,17 @@ export default function LeadForm() {
             className="w-full bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-bold py-3 transition-all flex items-center justify-center mt-6"
             disabled={isSubmitting}
           >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Processing...
-              </>
-            ) : (
-              <>
-                Get Instant Access
-              </>
-            )}
-          </Button>
+            <div className="flex items-center">
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <span>Processing...</span>
+                </>
+              ) : (
+                <span>Get Instant Access</span>
+              )}
+            </div>
+          </Button>n>
 
           <p className="text-xs text-muted-foreground text-center mt-4">
             By submitting this form, you agree to receive communications from AURA FORGE. 
