@@ -19,6 +19,7 @@ export default function ThankYou() {
 
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setRootElement(document.getElementById('root'));
 
     // Load Calendly widget script
@@ -87,9 +88,6 @@ export default function ThankYou() {
 
               {/* HERO SECTION */}
               <div ref={section1Ref} className="text-center mb-12 relative">
-                <div className="space-y-6 p-6 bg-gradient-to-r from-card/80 to-primary/5 rounded-xl border border-primary/20">
-                </div>
-
                 <h1 className="text-4xl md:text-5xl font-bold mb-3 font-display bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-500">
                   Quest Unlocked!
                 </h1>
