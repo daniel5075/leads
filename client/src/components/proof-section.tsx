@@ -74,7 +74,7 @@ export default function ProofSection() {
 
         <div className="grid md:grid-cols-2 gap-8">
           <CaseStudyCard 
-            image="https://images.unsplash.com/photo-1616588589676-62b3bd4ff6d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+            image="/duolingo.jpeg"
             title="Case Study: How Duolingo Hooks Users"
             description="Duolingo guides users through early lessons using visual goals, streaks, XP, and cute characters that celebrate wins."
           >
