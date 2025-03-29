@@ -14,9 +14,6 @@ export default function Footer() {
             <div className="font-display text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-500 mb-4">
               AURA FORGE
             </div>
-            <p className="text-muted-foreground mb-4">
-              A Data-Driven, Scalable Framework for Web3 Game Studios to Acquire, Engage, and Monetize Players Efficiently
-            </p>
             <div className="flex space-x-4">
               <a href="#" className="text-muted-foreground hover:text-foreground transition">
                 <Twitter size={18} />
