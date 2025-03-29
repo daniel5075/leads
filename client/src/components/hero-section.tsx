@@ -65,7 +65,7 @@ export default function HeroSection({ onGetPdfClick }: HeroSectionProps) {
 
           <div className="relative rounded-xl overflow-hidden shadow-2xl border border-border/50 h-[480px]">
             <img 
-              src="/attached_assets/person-in-thought.jpg"
+              src="attached_assets/person-in-thought.jpg"
               alt="Person in thought" 
               className="w-full h-full object-cover"
             />
@@ -75,7 +75,7 @@ export default function HeroSection({ onGetPdfClick }: HeroSectionProps) {
               <div className="bg-card/80 backdrop-blur-md p-4 rounded-lg border border-border/50">
                 <div className="flex items-center mb-2">
                   <img 
-                    src="/attached_assets/person-in-thought.jpg" 
+                    src="attached_assets/person-in-thought.jpg" 
                     alt="John Paragon" 
                     className="w-10 h-10 rounded-full object-cover mr-3 border-2 border-primary"
                   />
