@@ -285,26 +285,7 @@ export default function ThankYou() {
                   </div>
                 </div>
 
-                {/* CTA Button */}
-                <div className="text-center">
-                  {rootElement && (
-                    <PopupButton 
-                      url="https://calendly.com/johnparagon/chat"
-                      rootElement={rootElement}
-                      text="🎮 Yes, Let's Build My Funnel"
-                      className="bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-bold py-3 px-8 rounded-md text-lg shadow-lg"
-                    />
-                  )}
-                  {!rootElement && (
-                    <Button 
-                      className="bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-bold py-3 px-8 rounded-md text-lg shadow-lg gap-2"
-                      onClick={() => window.open("https://calendly.com/johnparagon/chat", "_blank")}
-                    >
-                      <Gamepad2 size={18} />
-                      🎮 Yes, Let's Build My Funnel
-                    </Button>
-                  )}
-                </div>
+                
               </div>
 
               {/* OBJECTION SECTION */}
