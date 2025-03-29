@@ -15,26 +15,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         
         
-        <div className="hidden md:flex items-center space-x-6">
-          <Link href="/" className="text-muted-foreground hover:text-foreground transition">
-            Home
-          </Link>
-          <a href="#" className="text-muted-foreground hover:text-foreground transition">
-            The Game
-          </a>
-          <a href="#" className="text-muted-foreground hover:text-foreground transition">
-            Partnerships
-          </a>
-          <a href="#" className="text-muted-foreground hover:text-foreground transition">
-            Events & Rewards
-          </a>
-          <a href="#" className="text-muted-foreground hover:text-foreground transition">
-            Roadmap & Development
-          </a>
-          <Button className="bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-medium">
-            Connect
-          </Button>
-        </div>
+        
         
         <button 
           className="md:hidden text-foreground p-2" 
