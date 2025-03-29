@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocation } from "wouter";
@@ -26,7 +26,6 @@ const formSchema = z.object({
   phone: z.string().optional(),
   twitterUrl: z.string().optional(),
   discordUsername: z.string().optional(),
-  affiliate: z.string().optional(), // Added affiliate field to schema
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -45,26 +44,17 @@ export default function LeadForm() {
       phone: "",
       twitterUrl: "",
       discordUsername: "",
-      affiliate: "", // Added default value for affiliate
     },
   });
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const affiliate = params.get("affiliate"); // Get affiliate parameter
-    if (affiliate) {
-      form.setValue("affiliate", affiliate);
-    }
-  }, [form]);
 
   // Handle form submission
   async function onSubmit(data: FormValues) {
     setIsSubmitting(true);
-
+    
     try {
       // Make API request to submit lead data
       const response = await apiRequest("POST", "/api/leads", data);
-
+      
       if (response.ok) {
         // Show success toast
         toast({
@@ -72,7 +62,7 @@ export default function LeadForm() {
           description: "Your information has been submitted successfully.",
           variant: "default",
         });
-
+        
         // Redirect to thank you page
         setLocation("/thank-you");
       } else {
@@ -82,7 +72,7 @@ export default function LeadForm() {
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-
+      
       // Show error toast
       toast({
         title: "Submission Failed",
@@ -99,7 +89,7 @@ export default function LeadForm() {
       {/* Background gradients */}
       <div className="absolute -top-5 -left-5 w-24 h-24 bg-primary/30 rounded-full blur-xl -z-10"></div>
       <div className="absolute -bottom-5 -right-5 w-32 h-32 bg-secondary/30 rounded-full blur-xl -z-10"></div>
-
+      
       <h2 className="text-3xl font-bold mb-6 font-display">Get the Free PDF Now</h2>
       <p className="text-muted-foreground mb-6">
         Discover how to onboard, engage, and retain your players — without spending a cent on ads
@@ -177,38 +167,23 @@ export default function LeadForm() {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="affiliate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Affiliate</FormLabel>
-                <FormControl>
-                  <Input placeholder="Affiliate Name" {...field} readOnly /> {/* Read-only input */}
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-
           <Button 
             type="submit" 
             className="w-full bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-bold py-3 transition-all flex items-center justify-center mt-6"
             disabled={isSubmitting}
           >
-            <div className="flex items-center">
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  <span>Processing...</span>
-                </>
-              ) : (
-                <span>Get Instant Access</span>
-              )}
-            </div>
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Processing...
+              </>
+            ) : (
+              <>
+                Get Instant Access
+              </>
+            )}
           </Button>
-
+          
           <p className="text-xs text-muted-foreground text-center mt-4">
             By submitting this form, you agree to receive communications from AURA FORGE. 
             We respect your privacy and will never share your information.
