@@ -65,8 +65,8 @@ export default function HeroSection({ onGetPdfClick }: HeroSectionProps) {
 
           <div className="relative rounded-xl overflow-hidden shadow-2xl border border-border/50 h-[480px]">
             <img 
-              src="https://images.unsplash.com/photo-1560253023-3ec5d502959f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
-              alt="Web3 gaming concept art" 
+              src="/attached_assets/image_1743269956284.png"
+              alt="Person in thought" 
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
