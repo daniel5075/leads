@@ -43,14 +43,14 @@ export default function ThankYou() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const section = entry.target;
-            const levelXp = maxXp / levels.length;
+            //Removed maxXp and levels references
 
-            if (section === section1Ref.current) setXp(levelXp * 1);
-            else if (section === section2Ref.current) setXp(levelXp * 2);
-            else if (section === section3Ref.current) setXp(levelXp * 3);
-            else if (section === section4Ref.current) setXp(levelXp * 4);
-            else if (section === section5Ref.current) setXp(levelXp * 5);
-            else if (section === section6Ref.current) setXp(levelXp * 6);
+            if (section === section1Ref.current) setActiveLevel(1); // Placeholder -  No XP system, updating level for demonstration.
+            else if (section === section2Ref.current) setActiveLevel(2);
+            else if (section === section3Ref.current) setActiveLevel(3);
+            else if (section === section4Ref.current) setActiveLevel(4);
+            else if (section === section5Ref.current) setActiveLevel(5);
+            else if (section === section6Ref.current) setActiveLevel(6);
           }
         });
       },
