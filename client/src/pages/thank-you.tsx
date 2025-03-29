@@ -88,13 +88,6 @@ export default function ThankYou() {
               {/* HERO SECTION */}
               <div ref={section1Ref} className="text-center mb-12 relative">
                 <div className="space-y-6 p-6 bg-gradient-to-r from-card/80 to-primary/5 rounded-xl border border-primary/20">
-                  <div className="flex items-center justify-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Trophy className="w-6 h-6 text-primary" />
-                  </div>
-                </div>
-
-
                 </div>
 
                 <div className="w-20 h-20 mx-auto bg-primary/20 rounded-full flex items-center justify-center mb-4">
