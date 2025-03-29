@@ -2,7 +2,7 @@ import { Client } from '@hubspot/api-client';
 import { InsertLead } from '../shared/schema';
 
 // Initialize the HubSpot client with API key from environment variables
-const hubspotClient = new Client({
+export const hubspotClient = new Client({
   accessToken: process.env.HUBSPOT_API_KEY,
 });
 
@@ -16,39 +16,45 @@ export const hubspotService = {
     try {
       console.log('[HubSpot] Creating/updating contact:', leadData.email);
       
-      // Format the data for HubSpot's contacts API
+      // Format the data for HubSpot's contacts API using standard HubSpot property names
       const properties = {
         email: leadData.email,
         firstname: leadData.name.split(' ')[0],
         lastname: leadData.name.split(' ').slice(1).join(' ') || '',
         phone: leadData.phone || '',
-        twitter_username: leadData.twitterUrl || '',
-        discord_username: leadData.discordUsername || '',
+        // Use notes for additional fields that might not exist in HubSpot by default
+        notes: `Twitter: ${leadData.twitterUrl || 'N/A'}, Discord: ${leadData.discordUsername || 'N/A'}`,
       };
 
       // Search for existing contact by email first
       try {
-        // Attempt to find the contact by email
-        const existingContact = await hubspotClient.crm.contacts.basicApi.getById(
-          leadData.email,
-          undefined,
-          undefined,
-          undefined,
-          false
+        // Using a simpler approach - get all contacts with matching email
+        // Note: This avoids issues with the enum types for filter operators
+        const searchResponse = await hubspotClient.crm.contacts.basicApi.getPage(
+          undefined, // default count
+          undefined, // default after
+          ['email', 'firstname', 'lastname'], // properties to return
+          undefined, // properties with history
+          `email=${encodeURIComponent(leadData.email)}` // simple string filter
         );
 
-        if (existingContact) {
-          // Contact exists, update their properties
+        // If we found a contact with this email
+        if (searchResponse.results && searchResponse.results.length > 0) {
+          const existingContact = searchResponse.results[0];
           console.log('[HubSpot] Contact exists, updating properties');
+          
+          // Update the existing contact
           const updateResponse = await hubspotClient.crm.contacts.basicApi.update(
             existingContact.id,
             { properties }
           );
           return { success: true, data: updateResponse, isNew: false };
+        } else {
+          console.log('[HubSpot] Contact does not exist, will create new one');
         }
       } catch (error) {
-        // Contact does not exist - this is expected
-        console.log('[HubSpot] Contact does not exist, will create new one');
+        // Error during search - log but continue to create new contact
+        console.log('[HubSpot] Error searching for contact, will attempt to create new one:', error);
       }
 
       // Create a new contact

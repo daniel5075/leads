@@ -74,17 +74,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
     
     try {
-      // Simple test connection to HubSpot
+      // Test connection to HubSpot by making a real API call
+      const hubspotClient = require('./hubspot').hubspotClient;
+      
+      // Try to get a page of contacts to test the connection
+      await hubspotClient.crm.contacts.basicApi.getPage(1);
+      
+      // If no error was thrown, connection is good
       res.status(200).json({ 
         configured: true, 
         portalId: process.env.HUBSPOT_PORTAL_ID,
-        message: "HubSpot integration is configured properly."
+        message: "HubSpot integration is configured and working correctly."
       });
     } catch (error) {
+      console.error('[HubSpot] Connection test failed:', error);
+      
+      // Connection test failed
       res.status(200).json({ 
         configured: true, 
         error: true,
-        message: "HubSpot credentials are configured but there was an error connecting." 
+        portalId: process.env.HUBSPOT_PORTAL_ID,
+        message: "HubSpot credentials are configured but there was an error connecting. Please check your API key and permissions."
       });
     }
   });
