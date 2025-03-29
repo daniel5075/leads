@@ -145,27 +145,6 @@ export default function ThankYou() {
                   <p>We offer it to founders who we believe have serious potential<br/>
                   Which is why you're seeing this</p>
                 </div>
-
-                {/* CTA Button */}
-                <div className="text-center mt-8">
-                  {rootElement && (
-                    <PopupButton 
-                      url="https://calendly.com/johnparagon/chat"
-                      rootElement={rootElement}
-                      text="🎯 Book Your Free Strategy Session"
-                      className="bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-bold py-3 px-8 rounded-md text-lg shadow-lg"
-                    />
-                  )}
-                  {!rootElement && (
-                    <Button 
-                      className="bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-bold py-3 px-8 rounded-md text-lg shadow-lg gap-2"
-                      onClick={() => window.open("https://calendly.com/johnparagon/chat", "_blank")}
-                    >
-                      <Target size={18} />
-                      🎯 Book Your Free Strategy Session
-                    </Button>
-                  )}
-                </div>
               </div>
 
               {/* WHAT'S IN THE PACK SECTION */}
@@ -285,7 +264,7 @@ export default function ThankYou() {
                   </div>
                 </div>
 
-                
+
               </div>
 
               {/* OBJECTION SECTION */}
@@ -338,7 +317,7 @@ export default function ThankYou() {
                   </div>
                 </div>
 
-                
+
               </div>
 
               {/* FINAL CTA SECTION */}
@@ -375,7 +354,7 @@ export default function ThankYou() {
                 </div>
               </div>
 
-              
+
             </div>
           </div>
         </div>
