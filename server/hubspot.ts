@@ -16,26 +16,36 @@ export const hubspotService = {
     try {
       console.log('[HubSpot] Creating/updating contact:', leadData.email);
       
-      // Format the data for HubSpot's contacts API using standard HubSpot property names
+      // Format the data for HubSpot's contacts API using standard HubSpot properties
+      // and custom properties (matching exact property names from HubSpot)
       const properties = {
         email: leadData.email,
         firstname: leadData.name.split(' ')[0],
         lastname: leadData.name.split(' ').slice(1).join(' ') || '',
         phone: leadData.phone || '',
-        // Use notes for additional fields that might not exist in HubSpot by default
-        notes: `Twitter: ${leadData.twitterUrl || 'N/A'}, Discord: ${leadData.discordUsername || 'N/A'}`,
+        // Use the exact field names as configured in HubSpot
+        // The property names in the screenshot are "TWITTER USERNAME" and "DISCORD ID"
+        // HubSpot often converts these to lowercase with underscores for API usage
+        "twitter username": leadData.twitterUrl || '',
+        "discord id": leadData.discordUsername || ''
       };
 
       // Search for existing contact by email first
       try {
         // Using a simpler approach - get all contacts with matching email
         // Note: This avoids issues with the enum types for filter operators
+        // Get all contacts to search for the email manually
+        // This works around the TypeScript API typing issues
         const searchResponse = await hubspotClient.crm.contacts.basicApi.getPage(
-          undefined, // default count
+          10, // limit to 10 results
           undefined, // default after
-          ['email', 'firstname', 'lastname'], // properties to return
-          undefined, // properties with history
-          `email=${encodeURIComponent(leadData.email)}` // simple string filter
+          undefined, // properties to return (get all properties)
+          undefined // properties with history
+        );
+        
+        // Filter results to find a contact with matching email
+        searchResponse.results = searchResponse.results.filter(
+          contact => contact.properties?.email?.toLowerCase() === leadData.email.toLowerCase()
         );
 
         // If we found a contact with this email
