@@ -84,6 +84,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const propertiesResponse = await hubspotClient.crm.properties.coreApi.getAll('contacts');
         availableProperties = propertiesResponse.results.map((p: any) => p.name);
         
+        // Log social media related fields to help find Twitter
+        const socialFields = availableProperties.filter((p: string) => 
+          p.includes('twitter') || 
+          p.includes('social') || 
+          p.includes('handle') ||
+          p.includes('tweet') ||
+          p.includes('tw_')
+        );
+        
+        console.log('[HubSpot] Social media related fields:', socialFields);
+        
         console.log('[HubSpot] Available custom properties:', 
           availableProperties.filter((p: string) => !['email', 'firstname', 'lastname', 'phone'].includes(p)));
       } catch (propError) {
@@ -113,6 +124,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get detailed property information from HubSpot
+  app.get("/api/hubspot/properties/details", async (_req, res) => {
+    if (!process.env.HUBSPOT_API_KEY || !process.env.HUBSPOT_PORTAL_ID) {
+      return res.status(200).json({ 
+        success: false, 
+        message: "HubSpot integration is not configured. Missing API key or Portal ID." 
+      });
+    }
+    
+    try {
+      const propertiesResponse = await hubspotClient.crm.properties.coreApi.getAll('contacts');
+      const properties = propertiesResponse.results;
+      
+      // Map display names to internal names
+      const propertiesMap = properties.map((p: any) => ({
+        name: p.name,
+        label: p.label,
+        description: p.description,
+        type: p.type,
+        fieldType: p.fieldType,
+        groupName: p.groupName
+      }));
+      
+      // Look for Twitter and Discord specifically
+      const twitterProps = properties.filter((p: any) => 
+        p.label.toLowerCase().includes('twitter') || 
+        p.name.toLowerCase().includes('twitter')
+      );
+      
+      const discordProps = properties.filter((p: any) => 
+        p.label.toLowerCase().includes('discord') || 
+        p.name.toLowerCase().includes('discord')
+      );
+      
+      res.status(200).json({
+        success: true,
+        count: properties.length,
+        properties: propertiesMap,
+        twitterProperties: twitterProps,
+        discordProperties: discordProps
+      });
+    } catch (error) {
+      console.error('[HubSpot] Error fetching property details:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to retrieve property details" 
+      });
+    }
+  });
+  
   // Get all leads (for admin purposes)
   app.get("/api/leads", async (req, res) => {
     try {

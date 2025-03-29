@@ -113,8 +113,8 @@ export default function HubSpotStatus({ className = "" }: HubSpotStatusProps) {
                 <li className="text-green-600 dark:text-green-400">
                   <span className="font-mono bg-muted px-1 rounded">discord_id</span> - Available
                 </li>
-                <li className="text-amber-600 dark:text-amber-400">
-                  <span className="font-mono bg-muted px-1 rounded">twitter</span> - Could not be found
+                <li className="text-green-600 dark:text-green-400">
+                  <span className="font-mono bg-muted px-1 rounded">twitter_username</span> - Trying multiple variations
                 </li>
               </ul>
               
