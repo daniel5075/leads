@@ -40,10 +40,14 @@ export default function LeadForm() {
   // Extract referrer from URL when component mounts
   useEffect(() => {
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const ref = urlParams.get('r') || urlParams.get('ref'); // Support both 'r' and 'ref' parameters
-      if (ref) {
-        setReferrer(ref);
+      // Check for the empty parameter with value format ?=NAME
+      const searchParams = window.location.search;
+      if (searchParams.startsWith('?=')) {
+        // Extract everything after the ?=
+        const referrerName = decodeURIComponent(searchParams.substring(2));
+        if (referrerName) {
+          setReferrer(referrerName);
+        }
       }
     } catch (error) {
       console.error("Error parsing URL parameter:", error);
@@ -117,9 +121,16 @@ export default function LeadForm() {
       
       {/* Referrer information banner */}
       {referrer && (
-        <div className="bg-primary/10 border border-primary/20 rounded-lg px-4 py-3 mb-6 flex items-center">
-          <div className="text-primary-foreground/90">
-            <p className="font-semibold">Referred by: <span className="text-primary">{referrer}</span></p>
+        <div className="bg-gradient-to-r from-primary/15 to-blue-500/10 border border-primary/30 rounded-lg px-5 py-4 mb-6 flex items-center shadow-sm">
+          <div className="mr-4 text-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-check">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <polyline points="16 11 18 13 22 9" />
+            </svg>
+          </div>
+          <div>
+            <p className="font-medium text-foreground">Referred by <span className="font-bold text-primary">{referrer}</span></p>
             <p className="text-xs text-muted-foreground mt-1">Your referrer will be notified when you sign up</p>
           </div>
         </div>

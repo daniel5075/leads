@@ -84,7 +84,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         email: `test-${timestamp}@example.com`,
         phone: "+15555555555",
         twitterUrl: "https://twitter.com/testuser",
-        discordUsername: "testuser#1234"
+        discordUsername: "testuser#1234",
+        referredBy: "TestReferrer"
       };
       
       // Log the test attempt
