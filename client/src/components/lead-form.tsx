@@ -115,6 +115,16 @@ export default function LeadForm() {
       <div className="absolute -top-5 -left-5 w-24 h-24 bg-primary/30 rounded-full blur-xl -z-10"></div>
       <div className="absolute -bottom-5 -right-5 w-32 h-32 bg-secondary/30 rounded-full blur-xl -z-10"></div>
       
+      {/* Referrer information banner */}
+      {referrer && (
+        <div className="bg-primary/10 border border-primary/20 rounded-lg px-4 py-3 mb-6 flex items-center">
+          <div className="text-primary-foreground/90">
+            <p className="font-semibold">Referred by: <span className="text-primary">{referrer}</span></p>
+            <p className="text-xs text-muted-foreground mt-1">Your referrer will be notified when you sign up</p>
+          </div>
+        </div>
+      )}
+      
       <h2 className="text-3xl font-bold mb-6 font-display">Get the Free PDF Now</h2>
       <p className="text-muted-foreground mb-6">
         Discover how to onboard, engage, and retain your players — without spending a cent on ads
@@ -192,19 +202,16 @@ export default function LeadForm() {
             )}
           />
           
+          {/* Hidden form field for React Hook Form to capture the referrer */}
           {referrer && (
             <FormField
               control={form.control}
               name="referredBy"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Referred By</FormLabel>
+                <FormItem className="hidden">
                   <FormControl>
-                    <Input {...field} readOnly className="bg-muted/50" />
+                    <Input type="hidden" {...field} />
                   </FormControl>
-                  <FormDescription className="text-xs">
-                    You were referred by {referrer}
-                  </FormDescription>
                 </FormItem>
               )}
             />
