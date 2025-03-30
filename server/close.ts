@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { InsertLead } from '../shared/schema';
 
 // Create an Axios instance for Close.com API
@@ -93,16 +93,30 @@ export const closeService = {
             try {
               console.log('[Close] Adding custom fields to lead: Twitter, Discord, and Referrer');
               // Try to update custom fields directly on the lead
+              // Log the referrer information for debugging
+              console.log('[Close] Setting referrer:', leadData.referredBy);
+              
+              // Try different field names that might be recognized by Close.com
               await closeApi.put(`/lead/${existingLead.id}`, {
                 custom: {
                   Twitter: leadData.twitterUrl || '',
                   Discord: leadData.discordUsername || '',
-                  Owner: leadData.referredBy || ''
+                  ReferredBy: leadData.referredBy || ''
                 }
               });
-            } catch (customFieldError) {
+            } catch (error) {
+              // Log detailed error information for debugging
+              console.error('[Close] Error updating custom fields:', error);
+              
+              // Extract field errors if available
+              const customFieldError = error as AxiosError<any>;
+              if (customFieldError.response?.data?.['field-errors']) {
+                console.error('[Close] Field validation errors:', 
+                  JSON.stringify(customFieldError.response.data['field-errors'], null, 2));
+              }
+              
               // If custom fields fail, fall back to adding a note
-              console.error('[Close] Error updating custom fields, falling back to notes:', customFieldError);
+              console.error('[Close] Falling back to notes method');
               await closeApi.post('/activity/note/', {
                 lead_id: existingLead.id,
                 note: `
@@ -157,16 +171,30 @@ export const closeService = {
         try {
           console.log('[Close] Adding custom fields to new lead: Twitter, Discord, and Referrer');
           // Try to update custom fields directly on the lead
+          // Log the referrer information for debugging
+          console.log('[Close] Setting referrer for new lead:', leadData.referredBy);
+          
+          // Try different field names that might be recognized by Close.com
           await closeApi.put(`/lead/${newLeadId}`, {
             custom: {
               Twitter: leadData.twitterUrl || '',
               Discord: leadData.discordUsername || '',
-              Owner: leadData.referredBy || ''
+              ReferredBy: leadData.referredBy || ''
             }
           });
-        } catch (customFieldError) {
+        } catch (error) {
+          // Log detailed error information for debugging
+          console.error('[Close] Error updating custom fields on new lead:', error);
+          
+          // Extract field errors if available
+          const customFieldError = error as AxiosError<any>;
+          if (customFieldError.response?.data?.['field-errors']) {
+            console.error('[Close] Field validation errors:', 
+              JSON.stringify(customFieldError.response.data['field-errors'], null, 2));
+          }
+          
           // If custom fields fail, fall back to adding a note
-          console.error('[Close] Error setting custom fields on new lead, falling back to notes:', customFieldError);
+          console.error('[Close] Falling back to notes method for new lead');
           await closeApi.post('/activity/note/', {
             lead_id: newLeadId,
             note: `
