@@ -218,7 +218,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         configured: true, 
         message: "Close.com integration is configured and working correctly.",
         user: status.data?.user,
-        organization: status.data?.organization
+        organization: status.data?.organization,
+        stats: {
+          leads: status.data?.leadCount || 0,
+          contacts: status.data?.contactCount || 0
+        }
       });
     } catch (error) {
       console.error('[Close] Connection test failed:', error);

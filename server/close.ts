@@ -37,18 +37,56 @@ export const closeService = {
           const existingLead = searchResponse.data.data[0];
           console.log('[Close] Lead exists, updating information');
           
-          // Update the existing lead's contacts
-          const updateResponse = await closeApi.put(`/lead/${existingLead.id}`, {
+          // Step 1: Update the lead first
+          const updateLeadResponse = await closeApi.put(`/lead/${existingLead.id}`, {
             name: leadData.name,
             status: 'Qualified', // Set appropriate status
-            contacts: [
-              {
-                name: leadData.name,
-                emails: [{ email: leadData.email, type: 'office' }],
-                phones: leadData.phone ? [{ phone: leadData.phone, type: 'office' }] : [],
-              }
-            ]
           });
+          
+          // Step 2: Check if this lead has contacts
+          const contactsResponse = await closeApi.get('/contact/', {
+            params: {
+              lead_id: existingLead.id
+            }
+          });
+          
+          let contactId;
+          let updateResponse;
+          
+          // If lead has contacts, update the first one
+          if (contactsResponse.data.data && contactsResponse.data.data.length > 0) {
+            contactId = contactsResponse.data.data[0].id;
+            console.log('[Close] Updating existing contact:', contactId);
+            
+            const updateContactResponse = await closeApi.put(`/contact/${contactId}`, {
+              name: leadData.name,
+              emails: [{ email: leadData.email, type: 'office' }],
+              phones: leadData.phone ? [{ phone: leadData.phone, type: 'office' }] : []
+            });
+            
+            updateResponse = {
+              data: {
+                ...updateLeadResponse.data,
+                contact: updateContactResponse.data
+              }
+            };
+          } else {
+            // Create a new contact for this lead
+            console.log('[Close] Creating new contact for existing lead');
+            const createContactResponse = await closeApi.post('/contact/', {
+              lead_id: existingLead.id,
+              name: leadData.name,
+              emails: [{ email: leadData.email, type: 'office' }],
+              phones: leadData.phone ? [{ phone: leadData.phone, type: 'office' }] : []
+            });
+            
+            updateResponse = {
+              data: {
+                ...updateLeadResponse.data,
+                contact: createContactResponse.data
+              }
+            };
+          }
           
           // Add custom fields if they exist
           if (leadData.twitterUrl || leadData.discordUsername) {
@@ -73,21 +111,32 @@ export const closeService = {
         console.log('[Close] Error searching for lead, will attempt to create new one:', error);
       }
 
-      // Create a new lead
-      const createResponse = await closeApi.post('/lead/', {
+      // Step 1: Create a new lead first
+      const createLeadResponse = await closeApi.post('/lead/', {
         name: leadData.name,
         status: 'New', // Initial status for new leads
-        contacts: [
-          {
-            name: leadData.name,
-            emails: [{ email: leadData.email, type: 'office' }],
-            phones: leadData.phone ? [{ phone: leadData.phone, type: 'office' }] : [],
-          }
-        ]
       });
       
-      // The new lead's ID
-      const newLeadId = createResponse.data.id;
+      // Get the new lead's ID
+      const newLeadId = createLeadResponse.data.id;
+      
+      // Step 2: Create a contact and associate it with the lead
+      const createContactResponse = await closeApi.post('/contact/', {
+        lead_id: newLeadId,
+        name: leadData.name,
+        emails: [{ email: leadData.email, type: 'office' }],
+        phones: leadData.phone ? [{ phone: leadData.phone, type: 'office' }] : []
+      });
+      
+      console.log('[Close] Created contact:', createContactResponse.data.id);
+      
+      // Return combined data
+      const createResponse = {
+        data: {
+          ...createLeadResponse.data,
+          contact: createContactResponse.data
+        }
+      };
       
       // Add custom fields if they exist
       if (leadData.twitterUrl || leadData.discordUsername) {
@@ -119,13 +168,39 @@ export const closeService = {
    */
   async checkConnection() {
     try {
-      // Attempt to get a lead to test the connection
-      const response = await closeApi.get('/me/');
+      // Step 1: Check user authentication
+      const userResponse = await closeApi.get('/me/');
+      const userName = userResponse.data.first_name + ' ' + userResponse.data.last_name;
+      const organization = userResponse.data.organizations[0]?.name || 'Unknown';
+      
+      // Step 2: Check if we can get leads
+      let leadStats = { count: 0 };
+      try {
+        const leadsResponse = await closeApi.get('/lead/', { params: { _limit: 5 } });
+        leadStats.count = leadsResponse.data.total_results || 0;
+        console.log('[Close] Found leads:', leadStats.count);
+      } catch (leadsError) {
+        console.error('[Close] Error fetching leads:', leadsError);
+      }
+      
+      // Step 3: Check if we can get contacts
+      let contactStats = { count: 0 };
+      try {
+        const contactsResponse = await closeApi.get('/contact/', { params: { _limit: 5 } });
+        contactStats.count = contactsResponse.data.total_results || 0;
+        console.log('[Close] Found contacts:', contactStats.count);
+      } catch (contactsError) {
+        console.error('[Close] Error fetching contacts:', contactsError);
+      }
+      
+      // Success if we can at least authenticate
       return { 
         success: true, 
         data: {
-          user: response.data.first_name + ' ' + response.data.last_name,
-          organization: response.data.organizations[0]?.name || 'Unknown',
+          user: userName,
+          organization: organization,
+          leadCount: leadStats.count,
+          contactCount: contactStats.count
         }
       };
     } catch (error) {

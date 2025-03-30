@@ -15,6 +15,10 @@ export default function CloseStatus({ className = "" }: CloseStatusProps) {
     organization?: string;
     error?: boolean;
     message?: string;
+    stats?: {
+      leads: number;
+      contacts: number;
+    }
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [showProperties, setShowProperties] = useState(false);
@@ -135,6 +139,16 @@ export default function CloseStatus({ className = "" }: CloseStatusProps) {
                   <li className="text-green-600 dark:text-green-400">
                     <span className="font-mono bg-muted px-1 rounded">Organization</span> - {status.organization}
                   </li>
+                )}
+                {status.stats && (
+                  <>
+                    <li className={status.stats.leads > 0 ? "text-green-600 dark:text-green-400" : "text-amber-600 dark:text-amber-400"}>
+                      <span className="font-mono bg-muted px-1 rounded">Leads</span> - {status.stats.leads} found
+                    </li>
+                    <li className={status.stats.contacts > 0 ? "text-green-600 dark:text-green-400" : "text-amber-600 dark:text-amber-400"}>
+                      <span className="font-mono bg-muted px-1 rounded">Contacts</span> - {status.stats.contacts} found
+                    </li>
+                  </>
                 )}
               </ul>
               
