@@ -37,10 +37,10 @@ export const closeService = {
           const existingLead = searchResponse.data.data[0];
           console.log('[Close] Lead exists, updating information');
           
-          // Step 1: Update the lead first
+          // Step 1: Update the lead first - only update the name
           const updateLeadResponse = await closeApi.put(`/lead/${existingLead.id}`, {
             name: leadData.name,
-            status: 'Qualified', // Set appropriate status
+            // Don't update status, keep whatever status the lead already has
           });
           
           // Step 2: Check if this lead has contacts
@@ -112,9 +112,9 @@ export const closeService = {
       }
 
       // Step 1: Create a new lead first
+      // Don't specify a status - Close.com will assign the default status
       const createLeadResponse = await closeApi.post('/lead/', {
         name: leadData.name,
-        status: 'New', // Initial status for new leads
       });
       
       // Get the new lead's ID
