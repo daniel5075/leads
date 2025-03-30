@@ -66,56 +66,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Test Close.com integration by sending a test lead
-  app.post("/api/close/test", async (req, res) => {
-    if (!process.env.CLOSE_API_KEY) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Close.com integration is not configured. Missing API key." 
-      });
-    }
-    
-    try {
-      // Create a test lead to verify the connection
-      // Make sure the timestamp is unique to avoid conflicts
-      const timestamp = Date.now();
-      const testLead = {
-        name: "Test Lead " + new Date().toISOString().split('T')[0],
-        email: `test-${timestamp}@example.com`,
-        phone: "+15555555555",
-        twitterUrl: "https://twitter.com/testuser",
-        discordUsername: "testuser#1234",
-        referredBy: "TestReferrer"
-      };
-      
-      // Log the test attempt
-      console.log('[Close] Sending test lead:', testLead);
-      
-      const result = await closeService.createOrUpdateLead(testLead);
-      
-      if (!result.success) {
-        console.error('[Close] Test lead creation failed:', result.error);
-      } else {
-        console.log('[Close] Test lead creation succeeded:', result.data?.id || 'no ID returned');
-      }
-      
-      return res.status(200).json({
-        success: result.success,
-        message: result.success 
-          ? "Successfully sent test lead to Close.com!"
-          : `Failed to send test lead to Close.com: ${result.error || 'Unknown error'}`,
-        data: result
-      });
-    } catch (error) {
-      console.error('[Close] Test lead creation failed:', error);
-      
-      // Error during test
-      return res.status(500).json({ 
-        success: false, 
-        message: "Failed to create test lead in Close.com."
-      });
-    }
-  });
+  // Close.com test endpoint removed for security purposes
   
   // Route to check Close.com connection status
   app.get("/api/close/status", async (_req, res) => {
@@ -155,22 +106,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Get all leads (for admin purposes)
-  app.get("/api/leads", async (req, res) => {
-    try {
-      const leads = await storage.getAllLeads();
-      res.status(200).json({
-        success: true,
-        count: leads.length,
-        data: leads
-      });
-    } catch (error) {
-      res.status(500).json({ 
-        success: false, 
-        message: "Failed to retrieve leads" 
-      });
-    }
-  });
+  // Admin leads retrieval endpoint removed for security purposes
 
   const httpServer = createServer(app);
 
