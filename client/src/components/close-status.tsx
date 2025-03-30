@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle, RefreshCw, AlertTriangle } from "lucide-react";
+import { CheckCircle, XCircle, RefreshCw, AlertTriangle, Zap } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 interface CloseStatusProps {
   className?: string;
@@ -22,6 +24,8 @@ export default function CloseStatus({ className = "" }: CloseStatusProps) {
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [showProperties, setShowProperties] = useState(false);
+  const [testingLead, setTestingLead] = useState(false);
+  const { toast } = useToast();
 
   async function checkCloseStatus() {
     setLoading(true);
@@ -46,6 +50,49 @@ export default function CloseStatus({ className = "" }: CloseStatusProps) {
       });
     } finally {
       setLoading(false);
+    }
+  }
+  
+  async function sendTestLead() {
+    setTestingLead(true);
+    try {
+      const response = await apiRequest("POST", "/api/close/test");
+      
+      if (response.ok) {
+        const data = await response.json();
+        
+        if (data.success) {
+          toast({
+            title: "Test Successful",
+            description: "Test lead was successfully sent to Close.com!",
+            variant: "default",
+          });
+          
+          // Refresh the status to show the new lead count
+          await checkCloseStatus();
+        } else {
+          toast({
+            title: "Test Failed",
+            description: data.message || "Failed to send test lead to Close.com",
+            variant: "destructive",
+          });
+        }
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to send test lead to Close.com",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Error sending test lead:", error);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred while testing the integration",
+        variant: "destructive",
+      });
+    } finally {
+      setTestingLead(false);
     }
   }
 
@@ -158,6 +205,22 @@ export default function CloseStatus({ className = "" }: CloseStatusProps) {
                   <li>Twitter and Discord are saved as notes on leads</li>
                   <li>Each lead can be viewed in your Close.com dashboard</li>
                 </ol>
+              </div>
+              
+              <div className="mt-4">
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="w-full text-xs h-8 flex items-center justify-center"
+                  onClick={sendTestLead}
+                  disabled={testingLead}
+                >
+                  <Zap className="h-3 w-3 mr-1" />
+                  {testingLead ? "Sending..." : "Send Test Lead"}
+                </Button>
+                <p className="text-[10px] text-muted-foreground mt-1">
+                  Creates a test lead in Close.com to verify the integration
+                </p>
               </div>
             </div>
           )}

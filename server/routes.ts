@@ -90,6 +90,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Test HubSpot integration by sending a test contact
+  app.post("/api/hubspot/test", async (req, res) => {
+    if (!process.env.HUBSPOT_API_KEY) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "HubSpot integration is not configured. Missing API key." 
+      });
+    }
+    
+    try {
+      // Create a test contact to verify the connection
+      const testContact = {
+        name: "Test Contact " + new Date().toISOString().split('T')[0],
+        email: `test-${Date.now()}@example.com`,
+        phone: "+15555555555",
+        twitterUrl: "https://twitter.com/testuser",
+        discordUsername: "testuser#1234"
+      };
+      
+      const result = await hubspotService.createOrUpdateContact(testContact);
+      
+      return res.status(200).json({
+        success: true,
+        message: "Successfully sent test contact to HubSpot!",
+        data: result
+      });
+    } catch (error) {
+      console.error('[HubSpot] Test contact creation failed:', error);
+      
+      // Error during test
+      return res.status(500).json({ 
+        success: false, 
+        message: "Failed to create test contact in HubSpot."
+      });
+    }
+  });
+  
   // Route to check HubSpot connection status
   app.get("/api/hubspot/status", async (_req, res) => {
     if (!process.env.HUBSPOT_API_KEY || !process.env.HUBSPOT_PORTAL_ID) {
@@ -196,6 +233,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ 
         success: false, 
         message: "Failed to retrieve property details" 
+      });
+    }
+  });
+  
+  // Test Close.com integration by sending a test lead
+  app.post("/api/close/test", async (req, res) => {
+    if (!process.env.CLOSE_API_KEY) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Close.com integration is not configured. Missing API key." 
+      });
+    }
+    
+    try {
+      // Create a test lead to verify the connection
+      const testLead = {
+        name: "Test Lead " + new Date().toISOString().split('T')[0],
+        email: `test-${Date.now()}@example.com`,
+        phone: "+15555555555",
+        twitterUrl: "https://twitter.com/testuser",
+        discordUsername: "testuser#1234"
+      };
+      
+      const result = await closeService.createOrUpdateLead(testLead);
+      
+      return res.status(200).json({
+        success: result.success,
+        message: result.success 
+          ? "Successfully sent test lead to Close.com!"
+          : "Failed to send test lead to Close.com.",
+        data: result
+      });
+    } catch (error) {
+      console.error('[Close] Test lead creation failed:', error);
+      
+      // Error during test
+      return res.status(500).json({ 
+        success: false, 
+        message: "Failed to create test lead in Close.com."
       });
     }
   });
