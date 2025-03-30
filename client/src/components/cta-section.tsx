@@ -25,7 +25,7 @@ export default function CTASection({ showForm = true }: CTASectionProps) {
             >
               Get the Free PDF Now
             </Button>
-            <p className="mt-4 text-muted-foreground">Join hundreds of successful Web3 game studios using our framework</p>
+            <p className="mt-4 text-muted-foreground">Join hundreds of successful companies using our gamified frameworks</p>
           </div>
         </div>
       </section>
