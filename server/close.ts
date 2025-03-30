@@ -96,14 +96,27 @@ export const closeService = {
               // Log the referrer information for debugging
               console.log('[Close] Setting referrer:', leadData.referredBy);
               
-              // Try different field names that might be recognized by Close.com
-              await closeApi.put(`/lead/${existingLead.id}`, {
-                custom: {
-                  Twitter: leadData.twitterUrl || '',
-                  Discord: leadData.discordUsername || '',
-                  ReferredBy: leadData.referredBy || ''
-                }
-              });
+              // Prepare custom fields object with only non-empty fields
+              const customFields: Record<string, string> = {};
+              
+              if (leadData.twitterUrl && leadData.twitterUrl.trim() !== '') {
+                customFields.Twitter = leadData.twitterUrl;
+              }
+              
+              if (leadData.discordUsername && leadData.discordUsername.trim() !== '') {
+                customFields.Discord = leadData.discordUsername;
+              }
+              
+              if (leadData.referredBy && leadData.referredBy.trim() !== '') {
+                customFields.ReferredBy = leadData.referredBy;
+              }
+              
+              // Only send the request if we have at least one custom field to update
+              if (Object.keys(customFields).length > 0) {
+                await closeApi.put(`/lead/${existingLead.id}`, {
+                  custom: customFields
+                });
+              }
             } catch (error) {
               // Log detailed error information for debugging
               console.error('[Close] Error updating custom fields:', error);
@@ -174,14 +187,27 @@ export const closeService = {
           // Log the referrer information for debugging
           console.log('[Close] Setting referrer for new lead:', leadData.referredBy);
           
-          // Try different field names that might be recognized by Close.com
-          await closeApi.put(`/lead/${newLeadId}`, {
-            custom: {
-              Twitter: leadData.twitterUrl || '',
-              Discord: leadData.discordUsername || '',
-              ReferredBy: leadData.referredBy || ''
-            }
-          });
+          // Prepare custom fields object with only non-empty fields
+          const customFields: Record<string, string> = {};
+          
+          if (leadData.twitterUrl && leadData.twitterUrl.trim() !== '') {
+            customFields.Twitter = leadData.twitterUrl;
+          }
+          
+          if (leadData.discordUsername && leadData.discordUsername.trim() !== '') {
+            customFields.Discord = leadData.discordUsername;
+          }
+          
+          if (leadData.referredBy && leadData.referredBy.trim() !== '') {
+            customFields.ReferredBy = leadData.referredBy;
+          }
+          
+          // Only send the request if we have at least one custom field to update
+          if (Object.keys(customFields).length > 0) {
+            await closeApi.put(`/lead/${newLeadId}`, {
+              custom: customFields
+            });
+          }
         } catch (error) {
           // Log detailed error information for debugging
           console.error('[Close] Error updating custom fields on new lead:', error);
