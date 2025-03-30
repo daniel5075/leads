@@ -102,13 +102,13 @@ export default function TestPage() {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="referredBy">Referred By</Label>
+              <Label htmlFor="referredBy">Owner</Label>
               <Input 
                 id="referredBy" 
                 value={referredBy} 
                 onChange={(e) => setReferredBy(e.target.value)} 
               />
-              <p className="text-sm text-gray-500">This is what will be saved as the "ReferredBy" field in Close.com</p>
+              <p className="text-sm text-gray-500">This is what will be saved as the "Owner" field in Close.com</p>
             </div>
             
             <div className="flex gap-2">

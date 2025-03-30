@@ -104,7 +104,7 @@ export default function Admin() {
                   <th className="text-left p-3 font-medium">Phone</th>
                   <th className="text-left p-3 font-medium">Twitter</th>
                   <th className="text-left p-3 font-medium">Discord</th>
-                  <th className="text-left p-3 font-medium">Referred By</th>
+                  <th className="text-left p-3 font-medium">Owner</th>
                 </tr>
               </thead>
               <tbody>

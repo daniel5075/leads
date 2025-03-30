@@ -108,7 +108,7 @@ export const closeService = {
               }
               
               if (leadData.referredBy && leadData.referredBy.trim() !== '') {
-                customFields.ReferredBy = leadData.referredBy;
+                customFields.Owner = leadData.referredBy;
               }
               
               // Only send the request if we have at least one custom field to update
@@ -136,7 +136,7 @@ export const closeService = {
                   Social Profiles:
                   ${leadData.twitterUrl ? `Twitter: ${leadData.twitterUrl}` : ''}
                   ${leadData.discordUsername ? `Discord: ${leadData.discordUsername}` : ''}
-                  ${leadData.referredBy ? `Referred By: ${leadData.referredBy}` : ''}
+                  ${leadData.referredBy ? `Owner: ${leadData.referredBy}` : ''}
                 `.trim()
               });
             }
@@ -199,7 +199,7 @@ export const closeService = {
           }
           
           if (leadData.referredBy && leadData.referredBy.trim() !== '') {
-            customFields.ReferredBy = leadData.referredBy;
+            customFields.Owner = leadData.referredBy;
           }
           
           // Only send the request if we have at least one custom field to update
@@ -227,7 +227,7 @@ export const closeService = {
               Social Profiles:
               ${leadData.twitterUrl ? `Twitter: ${leadData.twitterUrl}` : ''}
               ${leadData.discordUsername ? `Discord: ${leadData.discordUsername}` : ''}
-              ${leadData.referredBy ? `Referred By: ${leadData.referredBy}` : ''}
+              ${leadData.referredBy ? `Owner: ${leadData.referredBy}` : ''}
             `.trim()
           });
         }
