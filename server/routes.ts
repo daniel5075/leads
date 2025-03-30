@@ -5,6 +5,7 @@ import { insertLeadSchema } from "@shared/schema";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import { hubspotService, hubspotClient } from "./hubspot";
+import { closeService } from "./close";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // put application routes here
@@ -19,16 +20,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Store the lead in memory storage
       const createdLead = await storage.createLead(validatedData);
       
+      // Track integration results
+      const integrations: {
+        hubspot: any;
+        close: any;
+      } = {
+        hubspot: null,
+        close: null
+      };
+      
       // Submit to HubSpot if credentials are available
-      let hubspotResult = null;
       if (process.env.HUBSPOT_API_KEY && process.env.HUBSPOT_PORTAL_ID) {
         try {
-          hubspotResult = await hubspotService.createOrUpdateContact(validatedData);
-          console.log('[HubSpot] Integration result:', hubspotResult.success ? 'Success' : 'Failed');
+          integrations.hubspot = await hubspotService.createOrUpdateContact(validatedData);
+          console.log('[HubSpot] Integration result:', integrations.hubspot.success ? 'Success' : 'Failed');
         } catch (hubspotError) {
           console.error('[HubSpot] Error during integration:', hubspotError);
           // We don't fail the overall request if HubSpot integration fails
-          hubspotResult = { 
+          integrations.hubspot = { 
             success: false, 
             error: hubspotError instanceof Error ? hubspotError.message : 'Unknown HubSpot error' 
           };
@@ -36,13 +45,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } else {
         console.log('[HubSpot] Skipping integration - API key or Portal ID not configured');
       }
+      
+      // Submit to Close.com if credentials are available
+      if (process.env.CLOSE_API_KEY) {
+        try {
+          integrations.close = await closeService.createOrUpdateLead(validatedData);
+          console.log('[Close] Integration result:', integrations.close.success ? 'Success' : 'Failed');
+        } catch (closeError) {
+          console.error('[Close] Error during integration:', closeError);
+          // We don't fail the overall request if Close integration fails
+          integrations.close = { 
+            success: false, 
+            error: closeError instanceof Error ? closeError.message : 'Unknown Close.com error' 
+          };
+        }
+      } else {
+        console.log('[Close] Skipping integration - API key not configured');
+      }
 
       // Return success response
       res.status(201).json({
         success: true,
         message: "Success! Your gift is on the way to your email inbox and should arrive within the next 2-3 minutes.",
         data: createdLead,
-        hubspot: hubspotResult
+        integrations
       });
     } catch (error) {
       // Handle validation errors
@@ -170,6 +196,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ 
         success: false, 
         message: "Failed to retrieve property details" 
+      });
+    }
+  });
+  
+  // Route to check Close.com connection status
+  app.get("/api/close/status", async (_req, res) => {
+    if (!process.env.CLOSE_API_KEY) {
+      return res.status(200).json({ 
+        configured: false, 
+        message: "Close.com integration is not configured. Missing API key." 
+      });
+    }
+    
+    try {
+      // Test connection to Close.com by making a real API call
+      const status = await closeService.checkConnection();
+      
+      // If no error was thrown, connection is good
+      res.status(200).json({ 
+        configured: true, 
+        message: "Close.com integration is configured and working correctly.",
+        user: status.data?.user,
+        organization: status.data?.organization
+      });
+    } catch (error) {
+      console.error('[Close] Connection test failed:', error);
+      
+      // Connection test failed
+      res.status(200).json({ 
+        configured: true, 
+        error: true,
+        message: "Close.com credentials are configured but there was an error connecting. Please check your API key and permissions."
       });
     }
   });
