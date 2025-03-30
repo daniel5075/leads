@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Calendar, CheckCircle, Download, Gamepad2, Rocket, Target, Trophy, Lock } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Calendar, CheckCircle, Download, Gamepad2, Rocket, Target, Trophy, Lock } from "lucide-react";
 import { PopupButton } from "react-calendly";
 import { useState, useEffect, useRef } from "react";
 
@@ -77,14 +77,7 @@ export default function ThankYou() {
 
             {/* Main Content */}
             <div className="w-full lg:max-w-3xl"> {/* Removed lg:ml-10 for centering */}
-              <div className="flex justify-start mb-6">
-                <Link href="/">
-                  <Button variant="ghost" className="gap-2">
-                    <ArrowLeft size={16} />
-                    Back to Home
-                  </Button>
-                </Link>
-              </div>
+
 
               {/* HERO SECTION */}
               <div ref={section1Ref} className="text-center mb-12 relative">
