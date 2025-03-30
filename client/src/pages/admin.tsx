@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/queryClient";
-import HubSpotStatus from "@/components/hubspot-status";
 import CloseStatus from "@/components/close-status";
 
 export default function Admin() {
@@ -54,7 +53,6 @@ export default function Admin() {
         <div className="space-y-4">
           <h2 className="text-xl font-semibold mb-4">Integration Status</h2>
           <div className="space-y-4">
-            <HubSpotStatus />
             <CloseStatus />
           </div>
         </div>

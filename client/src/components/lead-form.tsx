@@ -58,30 +58,12 @@ export default function LeadForm() {
       if (response.ok) {
         const responseData = await response.json();
         
-        // Check if HubSpot integration was successful
-        const hubspotSuccess = responseData.hubspot?.success;
-        
-        // Show success toast - include info about HubSpot if available
+        // Show success toast
         toast({
           title: "Success!",
           description: responseData.message || "Your information has been submitted successfully.",
           variant: "default",
         });
-        
-        // If HubSpot integration was attempted but failed, show a note about it
-        // but don't block the user's flow
-        if (responseData.hubspot && !hubspotSuccess) {
-          console.warn("HubSpot integration failed:", responseData.hubspot.error);
-          // Optional: Show a warning toast about HubSpot sync issue
-          // Uncomment if you want to show users this info
-          /*
-          toast({
-            title: "Note",
-            description: "We've saved your information but there was an issue syncing with our CRM. Our team has been notified.",
-            variant: "default",
-          });
-          */
-        }
         
         // Redirect to thank you page
         setLocation("/thank-you");
@@ -208,12 +190,6 @@ export default function LeadForm() {
             <p>
               By submitting this form, you agree to receive communications from AURA FORGE. 
               We respect your privacy and will never share your information.
-            </p>
-            <p className="flex items-center justify-center gap-1">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="h-3 w-3 text-orange-500">
-                <path fill="currentColor" d="M489.9 172c-17.9-11.8-41.7-8.9-55.9 7.7l-54.2 63.3c-11.9 13.9-12.4 34.5-1.2 48.3 8.5 10.5 9.3 25.6 2 37.3-7.1 11.4-20.6 17.4-34.5 15.3l-43.3-7c-3.3-.6-6 1.3-6.8 2.5-.9 1.2-2 3.8-1 7l22.8 69.2c3.7 11.3 14.1 19.1 25.9 19.1 16 0 28.9-13 28.9-28.9v-17.3c0-13.2 8.5-25 20.9-29.2l56.1-18.5c38.7-12.7 65.8-48.5 65.8-88.5 0-28.4-14.7-54.6-38.8-70.2zM279.2 42.5v18c-25.8 4.9-51.1 14.4-73.1 28.9-18.3 12-35.8 27.3-51.3 45.3-9.7 11.2-9 28 1.7 38.1 7.7 7.3 19.1 9.1 28.7 4.6 14.4-6.7 30.4-9.9 46.7-9.9 62.2 0 112.8 50.6 112.8 112.8 0 62.2-50.6 112.8-112.8 112.8-62.2 0-112.8-50.6-112.8-112.8 0-12.6 2.1-25 6.1-36.9 4.5-13-1.1-27.2-13.2-33.5-8.9-4.6-19.5-4-28-1-8.4 3-14.9 9.3-18.1 17.7-6.1 15.5-9.2 31.7-9.2 53.7 0 75.5 56.3 138.1 129.2 148v18c0 11.9 9.6 21.5 21.5 21.5 11.9 0 21.5-9.6 21.5-21.5v-18c98.7-12 169.1-100.4 169.1-201.8 0-110.6-89.8-199.3-199.8-201.5zM273 291.5c0-7.4-6-13.5-13.4-13.5h-28.3c-7.4 0-13.5 6.1-13.5 13.5v28.3c0 7.4 6.1 13.5 13.5 13.5h28.3c7.4 0 13.4-6.1 13.4-13.5v-28.3z" />
-              </svg>
-              <span>Powered by HubSpot</span>
             </p>
           </div>
         </form>
