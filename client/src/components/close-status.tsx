@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle, RefreshCw, AlertTriangle, Zap } from "lucide-react";
+import { CheckCircle, XCircle, RefreshCw, AlertTriangle, Zap, ExternalLink } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,8 @@ export default function CloseStatus({ className = "" }: CloseStatusProps) {
     configured: boolean;
     user?: string;
     organization?: string;
+    organizationId?: string;
+    leadsUrl?: string;
     error?: boolean;
     message?: string;
     stats?: {
@@ -191,6 +193,17 @@ export default function CloseStatus({ className = "" }: CloseStatusProps) {
                   <>
                     <li className={status.stats.leads > 0 ? "text-green-600 dark:text-green-400" : "text-amber-600 dark:text-amber-400"}>
                       <span className="font-mono bg-muted px-1 rounded">Leads</span> - {status.stats.leads} found
+                      {status.leadsUrl && (
+                        <a 
+                          href={status.leadsUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center ml-1 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                        >
+                          <ExternalLink className="h-3 w-3 ml-1" />
+                          <span className="sr-only">View in Close.com</span>
+                        </a>
+                      )}
                     </li>
                     <li className={status.stats.contacts > 0 ? "text-green-600 dark:text-green-400" : "text-amber-600 dark:text-amber-400"}>
                       <span className="font-mono bg-muted px-1 rounded">Contacts</span> - {status.stats.contacts} found

@@ -153,11 +153,44 @@ export const closeService = {
       
       console.log('[Close] Integration result: Success (Created)');
       return { success: true, data: createResponse.data, isNew: true };
-    } catch (error) {
+    } catch (error: any) {
       console.error('[Close] Error creating/updating lead:', error);
+      
+      // Extract more detailed error information from Axios errors
+      let errorMessage = 'Unknown error with Close.com API';
+      let errorData = null;
+      
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('[Close] Error response data:', error.response.data);
+        console.error('[Close] Error response status:', error.response.status);
+        
+        if (error.response.data) {
+          if (error.response.data.errors && Array.isArray(error.response.data.errors)) {
+            errorMessage = `API Error: ${error.response.data.errors.join(', ')}`;
+          } else if (error.response.data['field-errors']) {
+            const fieldErrors = Object.entries(error.response.data['field-errors'] || {})
+              .map(([field, errors]) => `${field}: ${Array.isArray(errors) ? errors.join(', ') : String(errors)}`)
+              .join('; ');
+            errorMessage = `Validation Error: ${fieldErrors}`;
+          }
+          errorData = error.response.data;
+        } else {
+          errorMessage = `HTTP Error ${error.response.status}`;
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        errorMessage = 'No response received from Close.com API';
+      } else if (error.message) {
+        // Something happened in setting up the request that triggered an Error
+        errorMessage = typeof error.message === 'string' ? error.message : 'Unknown error';
+      }
+      
       return { 
         success: false, 
-        error: error instanceof Error ? error.message : 'Unknown error with Close.com API'
+        error: errorMessage,
+        errorData
       };
     }
   },
@@ -171,7 +204,9 @@ export const closeService = {
       // Step 1: Check user authentication
       const userResponse = await closeApi.get('/me/');
       const userName = userResponse.data.first_name + ' ' + userResponse.data.last_name;
-      const organization = userResponse.data.organizations[0]?.name || 'Unknown';
+      const orgData = userResponse.data.organizations[0] || {};
+      const organization = orgData.name || 'Unknown';
+      const orgId = orgData.id;
       
       // Step 2: Check if we can get leads
       let leadStats = { count: 0 };
@@ -194,20 +229,26 @@ export const closeService = {
       }
       
       // Success if we can at least authenticate
+      // Generate Close.com app URLs
+      const leadsUrl = orgId ? `https://app.close.com/organizations/${orgId}/leads/` : null;
+      
       return { 
         success: true, 
         data: {
           user: userName,
           organization: organization,
+          organizationId: orgId,
           leadCount: leadStats.count,
-          contactCount: contactStats.count
+          contactCount: contactStats.count,
+          leadsUrl: leadsUrl
         }
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error('[Close] Connection test failed:', error);
       return { 
         success: false, 
-        error: error instanceof Error ? error.message : 'Unknown error with Close.com API' 
+        error: error instanceof Error ? error.message : 
+               (error?.response?.data?.message || error?.message || 'Unknown error with Close.com API')
       };
     }
   }

@@ -248,21 +248,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     
     try {
       // Create a test lead to verify the connection
+      // Make sure the timestamp is unique to avoid conflicts
+      const timestamp = Date.now();
       const testLead = {
         name: "Test Lead " + new Date().toISOString().split('T')[0],
-        email: `test-${Date.now()}@example.com`,
+        email: `test-${timestamp}@example.com`,
         phone: "+15555555555",
         twitterUrl: "https://twitter.com/testuser",
         discordUsername: "testuser#1234"
       };
       
+      // Log the test attempt
+      console.log('[Close] Sending test lead:', testLead);
+      
       const result = await closeService.createOrUpdateLead(testLead);
+      
+      if (!result.success) {
+        console.error('[Close] Test lead creation failed:', result.error);
+      } else {
+        console.log('[Close] Test lead creation succeeded:', result.data?.id || 'no ID returned');
+      }
       
       return res.status(200).json({
         success: result.success,
         message: result.success 
           ? "Successfully sent test lead to Close.com!"
-          : "Failed to send test lead to Close.com.",
+          : `Failed to send test lead to Close.com: ${result.error || 'Unknown error'}`,
         data: result
       });
     } catch (error) {
@@ -295,6 +306,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: "Close.com integration is configured and working correctly.",
         user: status.data?.user,
         organization: status.data?.organization,
+        organizationId: status.data?.organizationId,
+        leadsUrl: status.data?.leadsUrl,
         stats: {
           leads: status.data?.leadCount || 0,
           contacts: status.data?.contactCount || 0
