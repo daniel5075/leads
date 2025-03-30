@@ -74,6 +74,7 @@ export default function Admin() {
                   <th className="text-left p-3 font-medium">Phone</th>
                   <th className="text-left p-3 font-medium">Twitter</th>
                   <th className="text-left p-3 font-medium">Discord</th>
+                  <th className="text-left p-3 font-medium">Referred By</th>
                 </tr>
               </thead>
               <tbody>
@@ -84,6 +85,12 @@ export default function Admin() {
                     <td className="p-3">{lead.phone || "-"}</td>
                     <td className="p-3">{lead.twitterUrl || "-"}</td>
                     <td className="p-3">{lead.discordUsername || "-"}</td>
+                    <td className="p-3">
+                      {lead.referredBy ? 
+                        <span className="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs">
+                          {lead.referredBy}
+                        </span> : "-"}
+                    </td>
                   </tr>
                 ))}
               </tbody>

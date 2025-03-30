@@ -89,14 +89,15 @@ export const closeService = {
           }
           
           // Add custom fields directly to the lead
-          if (leadData.twitterUrl || leadData.discordUsername) {
+          if (leadData.twitterUrl || leadData.discordUsername || leadData.referredBy) {
             try {
-              console.log('[Close] Adding custom fields to lead: Twitter and Discord');
+              console.log('[Close] Adding custom fields to lead: Twitter, Discord, and Referrer');
               // Try to update custom fields directly on the lead
               await closeApi.put(`/lead/${existingLead.id}`, {
                 custom: {
                   Twitter: leadData.twitterUrl || '',
-                  Discord: leadData.discordUsername || ''
+                  Discord: leadData.discordUsername || '',
+                  Owner: leadData.referredBy || ''
                 }
               });
             } catch (customFieldError) {
@@ -108,6 +109,7 @@ export const closeService = {
                   Social Profiles:
                   ${leadData.twitterUrl ? `Twitter: ${leadData.twitterUrl}` : ''}
                   ${leadData.discordUsername ? `Discord: ${leadData.discordUsername}` : ''}
+                  ${leadData.referredBy ? `Referred By: ${leadData.referredBy}` : ''}
                 `.trim()
               });
             }
@@ -151,14 +153,15 @@ export const closeService = {
       };
       
       // Add custom fields directly to the lead
-      if (leadData.twitterUrl || leadData.discordUsername) {
+      if (leadData.twitterUrl || leadData.discordUsername || leadData.referredBy) {
         try {
-          console.log('[Close] Adding custom fields to new lead: Twitter and Discord');
+          console.log('[Close] Adding custom fields to new lead: Twitter, Discord, and Referrer');
           // Try to update custom fields directly on the lead
           await closeApi.put(`/lead/${newLeadId}`, {
             custom: {
               Twitter: leadData.twitterUrl || '',
-              Discord: leadData.discordUsername || ''
+              Discord: leadData.discordUsername || '',
+              Owner: leadData.referredBy || ''
             }
           });
         } catch (customFieldError) {
@@ -170,6 +173,7 @@ export const closeService = {
               Social Profiles:
               ${leadData.twitterUrl ? `Twitter: ${leadData.twitterUrl}` : ''}
               ${leadData.discordUsername ? `Discord: ${leadData.discordUsername}` : ''}
+              ${leadData.referredBy ? `Referred By: ${leadData.referredBy}` : ''}
             `.trim()
           });
         }

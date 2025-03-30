@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocation } from "wouter";
@@ -26,14 +26,29 @@ const formSchema = z.object({
   phone: z.string().optional(),
   twitterUrl: z.string().optional(),
   discordUsername: z.string().optional(),
+  referredBy: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 export default function LeadForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [referrer, setReferrer] = useState<string | null>(null);
   const [_, setLocation] = useLocation();
   const { toast } = useToast();
+
+  // Extract referrer from URL when component mounts
+  useEffect(() => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref) {
+        setReferrer(ref);
+      }
+    } catch (error) {
+      console.error("Error parsing URL parameter:", error);
+    }
+  }, []);
 
   // Define form
   const form = useForm<FormValues>({
@@ -44,8 +59,16 @@ export default function LeadForm() {
       phone: "",
       twitterUrl: "",
       discordUsername: "",
+      referredBy: "",
     },
   });
+  
+  // Update the form when referrer changes
+  useEffect(() => {
+    if (referrer) {
+      form.setValue("referredBy", referrer);
+    }
+  }, [referrer, form]);
 
   // Handle form submission
   async function onSubmit(data: FormValues) {
@@ -168,6 +191,24 @@ export default function LeadForm() {
               </FormItem>
             )}
           />
+          
+          {referrer && (
+            <FormField
+              control={form.control}
+              name="referredBy"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Referred By</FormLabel>
+                  <FormControl>
+                    <Input {...field} readOnly className="bg-muted/50" />
+                  </FormControl>
+                  <FormDescription className="text-xs">
+                    You were referred by {referrer}
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
+          )}
 
           <Button 
             type="submit" 

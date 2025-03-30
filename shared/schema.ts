@@ -16,6 +16,7 @@ export const leads = pgTable("leads", {
   phone: text("phone"),
   twitterUrl: text("twitter_url"),
   discordUsername: text("discord_username"),
+  referredBy: text("referred_by"),
   createdAt: text("created_at").notNull(),
 });
 
@@ -30,6 +31,7 @@ export const insertLeadSchema = createInsertSchema(leads).pick({
   phone: true,
   twitterUrl: true,
   discordUsername: true,
+  referredBy: true,
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
