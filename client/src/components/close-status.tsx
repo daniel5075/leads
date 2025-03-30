@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle, RefreshCw, AlertTriangle, Zap, ExternalLink } from "lucide-react";
+import { CheckCircle, XCircle, RefreshCw, Zap, ExternalLink, AlertCircle } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -128,7 +128,7 @@ export default function CloseStatus({ className = "" }: CloseStatusProps) {
           {status.configured && !status.error ? (
             <CheckCircle className="h-4 w-4" />
           ) : status.error ? (
-            <AlertTriangle className="h-4 w-4" />
+            <AlertCircle className="h-4 w-4" />
           ) : (
             <XCircle className="h-4 w-4" />
           )}
@@ -213,10 +213,23 @@ export default function CloseStatus({ className = "" }: CloseStatusProps) {
               </ul>
               
               <div className="mt-3 text-xs text-muted-foreground">
-                <p>Submission notes:</p>
+                <p>Submission data:</p>
                 <ol className="list-decimal pl-4 space-y-1 mt-1">
-                  <li>Twitter and Discord are saved as notes on leads</li>
+                  <li>Twitter and Discord are saved as custom fields on leads</li>
                   <li>Each lead can be viewed in your Close.com dashboard</li>
+                  {status.leadsUrl && (
+                    <li>
+                      <a 
+                        href={status.leadsUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                      >
+                        View all leads in Close.com
+                        <ExternalLink className="h-3 w-3 ml-1" />
+                      </a>
+                    </li>
+                  )}
                 </ol>
               </div>
               

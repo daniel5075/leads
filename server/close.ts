@@ -88,17 +88,29 @@ export const closeService = {
             };
           }
           
-          // Add custom fields if they exist
+          // Add custom fields directly to the lead
           if (leadData.twitterUrl || leadData.discordUsername) {
-            // Create custom fields activity
-            await closeApi.post('/activity/note/', {
-              lead_id: existingLead.id,
-              note: `
-                Social Profiles:
-                ${leadData.twitterUrl ? `Twitter: ${leadData.twitterUrl}` : ''}
-                ${leadData.discordUsername ? `Discord: ${leadData.discordUsername}` : ''}
-              `.trim()
-            });
+            try {
+              console.log('[Close] Adding custom fields to lead: Twitter and Discord');
+              // Try to update custom fields directly on the lead
+              await closeApi.put(`/lead/${existingLead.id}`, {
+                custom: {
+                  Twitter: leadData.twitterUrl || '',
+                  Discord: leadData.discordUsername || ''
+                }
+              });
+            } catch (customFieldError) {
+              // If custom fields fail, fall back to adding a note
+              console.error('[Close] Error updating custom fields, falling back to notes:', customFieldError);
+              await closeApi.post('/activity/note/', {
+                lead_id: existingLead.id,
+                note: `
+                  Social Profiles:
+                  ${leadData.twitterUrl ? `Twitter: ${leadData.twitterUrl}` : ''}
+                  ${leadData.discordUsername ? `Discord: ${leadData.discordUsername}` : ''}
+                `.trim()
+              });
+            }
           }
           
           console.log('[Close] Integration result: Success (Updated)');
@@ -138,17 +150,29 @@ export const closeService = {
         }
       };
       
-      // Add custom fields if they exist
+      // Add custom fields directly to the lead
       if (leadData.twitterUrl || leadData.discordUsername) {
-        // Create custom fields activity
-        await closeApi.post('/activity/note/', {
-          lead_id: newLeadId,
-          note: `
-            Social Profiles:
-            ${leadData.twitterUrl ? `Twitter: ${leadData.twitterUrl}` : ''}
-            ${leadData.discordUsername ? `Discord: ${leadData.discordUsername}` : ''}
-          `.trim()
-        });
+        try {
+          console.log('[Close] Adding custom fields to new lead: Twitter and Discord');
+          // Try to update custom fields directly on the lead
+          await closeApi.put(`/lead/${newLeadId}`, {
+            custom: {
+              Twitter: leadData.twitterUrl || '',
+              Discord: leadData.discordUsername || ''
+            }
+          });
+        } catch (customFieldError) {
+          // If custom fields fail, fall back to adding a note
+          console.error('[Close] Error setting custom fields on new lead, falling back to notes:', customFieldError);
+          await closeApi.post('/activity/note/', {
+            lead_id: newLeadId,
+            note: `
+              Social Profiles:
+              ${leadData.twitterUrl ? `Twitter: ${leadData.twitterUrl}` : ''}
+              ${leadData.discordUsername ? `Discord: ${leadData.discordUsername}` : ''}
+            `.trim()
+          });
+        }
       }
       
       console.log('[Close] Integration result: Success (Created)');
